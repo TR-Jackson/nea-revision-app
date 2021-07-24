@@ -1,7 +1,8 @@
+import passport from "../../../lib/passport";
+
 export default function loginHandler(req, res) {
-  passport.authenticate("local-login", function (error, user, token) {
+  passport.authenticate("local-login", function (error, user, info) {
     if (error) {
-      console.log(error);
       return res.status(500).json({
         message: error || "Something happend",
         error: error.message || "Server error",
@@ -18,8 +19,8 @@ export default function loginHandler(req, res) {
     });
 
     user.isAuthenticated = true;
-    return res.json({ user: user, jwt: token });
+    return res.json(user);
   })(req, res);
 }
 
-// need to find source
+// https://github.com/Herpryth/MERN-Passport-Authentication

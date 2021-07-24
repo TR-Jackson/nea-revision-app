@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "../axios-revise-app";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -6,7 +7,13 @@ export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
 
   const submitHandler = () => {
-    console.log(isLogin ? "LOG" : "SIGN", "IN", username, password);
+    axios
+      .post(`/auth/${isLogin ? "login" : "register"}`, {
+        username: username,
+        password: password,
+      })
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -25,9 +32,9 @@ export default function Login() {
           setPassword(event.target.value);
         }}
       />
-      <button onClick={submitHandler}>{isLogin ? "LOG" : "SIGN"} IN</button>
+      <button onClick={submitHandler}>{isLogin ? "LOG IN" : "SIGN UP"}</button>
       <button onClick={() => setIsLogin(!isLogin)}>
-        Switch to {isLogin ? "sign" : "log"} in
+        Switch to {isLogin ? "sign up" : "log in"}
       </button>
     </div>
   );
