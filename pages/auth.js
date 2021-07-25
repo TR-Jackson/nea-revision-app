@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "../axios-revise-app";
+import axios from "../lib/axios-revise-app";
 
 export default function Login() {
   const [username, setUsername] = useState("");
