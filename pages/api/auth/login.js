@@ -6,7 +6,7 @@ import init from "../../../middleware/initPassport";
 const handler = nc();
 
 export default function loginHandler(req, res) {
-  handler.use(init).get(
+  handler.use(passport.initialize()).get(
     passport.authenticate("local-login", function (error, user, info) {
       if (error) {
         return res.status(500).json({

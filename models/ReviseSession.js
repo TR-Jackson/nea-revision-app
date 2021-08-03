@@ -5,4 +5,5 @@ const reviseSessionSchema = new mongoose.Schema({
   toReview: { type: [mongoose.ObjectId], required: true }, // [flashcardIDs]
 });
 
-export default mongoose.model("ReviseSession", reviseSessionSchema);
+export default mongoose.models.ReviseSession ||
+  mongoose.model("ReviseSession", reviseSessionSchema);

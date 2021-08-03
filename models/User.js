@@ -6,4 +6,4 @@ const userSchema = new mongoose.Schema({
   folders: { type: [Object], required: true }, // {name, last reviewed, [cards in box 0, cards in box 1, etc]}
 });
 
-export default mongoose.model("User", userSchema);
+export default mongoose.models.User || mongoose.model("User", userSchema);

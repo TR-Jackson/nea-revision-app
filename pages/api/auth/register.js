@@ -6,7 +6,7 @@ import init from "../../../middleware/initPassport";
 const handler = nc();
 
 export default function registerHandler(req, res) {
-  handler.use(init).get(
+  handler.use(passport.initialize()).get(
     passport.authenticate("local-register", function (error, user) {
       if (error) {
         return res.status(500).json({
@@ -30,4 +30,4 @@ export default function registerHandler(req, res) {
   );
 }
 
-// // https://github.com/Herpryth/MERN-Passport-Authentication
+// https://github.com/Herpryth/MERN-Passport-Authentication

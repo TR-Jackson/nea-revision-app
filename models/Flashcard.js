@@ -8,4 +8,5 @@ const flashcardSchema = new mongoose.Schema({
   nextReview: { type: Date, required: true },
 });
 
-export default mongoose.model("Flashcard", flashcardSchema);
+export default mongoose.models.Flashcard ||
+  mongoose.model("Flashcard", flashcardSchema);
