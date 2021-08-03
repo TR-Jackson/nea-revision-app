@@ -1,33 +1,30 @@
-import nc from "next-connect";
-
+import nextConnect from "next-connect";
 import passport from "../../../lib/passport";
-import init from "../../../middleware/initPassport";
 
-const handler = nc();
+import { issueJWT } from "../../../util/auth";
 
-export default function registerHandler(req, res) {
-  handler.use(passport.initialize()).get(
-    passport.authenticate("local-register", function (error, user) {
+const handler = nextConnect();
+handler.use(passport.initialize()).post((req, res) => {
+  passport.authenticate("local-register", function (error, user, info) {
+    if (error) {
+      return res.status(500).json({
+        message: error || "Something happend",
+        error: error.message || "Server error",
+      });
+    }
+    req.logIn(user, function (error, data) {
       if (error) {
         return res.status(500).json({
           message: error || "Something happend",
           error: error.message || "Server error",
         });
       }
+      const jwt = issueJWT(user);
+      return res.json({ username: user.username, jwt: jwt });
+    });
+  })(req, res);
+});
 
-      req.logIn(user, function (error, data) {
-        if (error) {
-          return res.status(500).json({
-            message: error || "Something happend",
-            error: error.message || "Server error",
-          });
-        }
-      });
-
-      user.isAuthenticated = true;
-      return res.json({ user: user, jwt: token });
-    })(req, res)
-  );
-}
+export default handler;
 
 // https://github.com/Herpryth/MERN-Passport-Authentication

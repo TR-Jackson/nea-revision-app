@@ -1,13 +1,10 @@
-import nc from "next-connect";
-
+import nextConnect from "next-connect";
 import passport from "../../../lib/passport";
-import init from "../../../middleware/initPassport";
 
-const handler = nc();
-
-export default function loginHandler(req, res) {
-  handler.use(passport.initialize()).get(
-    passport.authenticate("local-login", function (error, user, info) {
+const handler = nextConnect()
+  .use(passport.initialize())
+  .post((req, res) => {
+    passport.authenticate("local-login", function (error, user, token) {
       if (error) {
         return res.status(500).json({
           message: error || "Something happend",
@@ -25,9 +22,13 @@ export default function loginHandler(req, res) {
       });
 
       user.isAuthenticated = true;
-      return res.json({ user: user, jwt: token });
-    })(req, res)
-  );
-}
+      return res.json({
+        user: { username: user.username, folders: user.folders },
+        jwt: token,
+      });
+    })(req, res);
+  });
+
+export default handler;
 
 // https://github.com/Herpryth/MERN-Passport-Authentication
