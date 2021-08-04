@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../lib/axios-revise-app";
+import Router from "next/router";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+
+  useEffect(() => {
+    if (document.cookie.indexOf("jwt=") !== -1) Router.push("/");
+  }, []);
 
   const submitHandler = () => {
     axios
@@ -12,7 +17,13 @@ export default function Login() {
         username: username,
         password: password,
       })
-      .then((response) => console.log(response))
+      .then((response) => {
+        const today = new Date();
+        const expires = new Date(
+          today.getTime() + parseInt(response.data.jwt.expires)
+        );
+        document.cookie = `jwt=${response.data.jwt.token}; expires=${expires}`;
+      })
       .catch((err) => console.log(err));
   };
 

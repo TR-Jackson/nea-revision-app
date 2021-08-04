@@ -4,6 +4,7 @@ import passport from "../../../lib/passport";
 import { issueJWT } from "../../../util/auth";
 
 const handler = nextConnect();
+
 handler.use(passport.initialize()).post((req, res) => {
   passport.authenticate("local-register", function (error, user, info) {
     if (error) {
@@ -20,7 +21,7 @@ handler.use(passport.initialize()).post((req, res) => {
         });
       }
       const jwt = issueJWT(user);
-      return res.json({ username: user.username, jwt: jwt });
+      return res.json({ jwt: jwt });
     });
   })(req, res);
 });

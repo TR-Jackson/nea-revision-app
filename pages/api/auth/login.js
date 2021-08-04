@@ -23,7 +23,6 @@ const handler = nextConnect()
 
       user.isAuthenticated = true;
       return res.json({
-        user: { username: user.username, folders: user.folders },
         jwt: token,
       });
     })(req, res);
