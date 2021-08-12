@@ -21,9 +21,9 @@ const handler = nextConnect()
         }
       });
 
-      user.isAuthenticated = true;
       return res.json({
         jwt: token,
+        user: { username: user.username, folders: user.folders },
       });
     })(req, res);
   });

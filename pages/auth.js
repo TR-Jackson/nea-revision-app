@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
-import axios from "../lib/axios-revise-app";
+import { useRouter } from "next/router";
+import axios from "axios";
 import Router from "next/router";
+import Cookies from "js-cookie";
 
-export default function Login() {
+import useUser from "../hooks/useUser";
+
+export default function Auth() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-
-  useEffect(() => {
-    if (document.cookie.indexOf("jwt=") !== -1) Router.push("/");
-  }, []);
+  const { user, mutateUser } = useUser({
+    redirectTo: "/",
+    redirectIfFound: true,
+  });
 
   const submitHandler = () => {
     axios
@@ -22,13 +26,17 @@ export default function Login() {
         const expires = new Date(
           today.getTime() + parseInt(response.data.jwt.expires)
         );
-        document.cookie = `jwt=${response.data.jwt.token}; expires=${expires}`;
+        const jwt = response.data.jwt.token.replace("Bearer ", "");
+        Cookies.set("jwt", jwt, { expires: expires });
+        mutateUser(response.data.user);
+        Router.push("/");
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <div className="flex flex-col justify-start">
+      {console.log("user: ", user)}
       <p>This is the {isLogin ? "log" : "sign"} in page</p>
       <p>Username</p>
       <input

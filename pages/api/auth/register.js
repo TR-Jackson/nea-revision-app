@@ -21,7 +21,10 @@ handler.use(passport.initialize()).post((req, res) => {
         });
       }
       const jwt = issueJWT(user);
-      return res.json({ jwt: jwt });
+      return res.json({
+        jwt: jwt,
+        user: { username: user.username, folders: user.folders },
+      });
     });
   })(req, res);
 });
