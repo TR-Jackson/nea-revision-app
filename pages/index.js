@@ -19,7 +19,7 @@ export default function Home() {
       <ul>
         <li>Hello {user?.username}</li>
         {user?.folders.length !== 0 ? (
-          user.folders.map((folder) => <p>{folder}</p>)
+          user?.folders.map((folder) => <p>{folder}</p>)
         ) : (
           <li>No folders yet</li>
         )}
