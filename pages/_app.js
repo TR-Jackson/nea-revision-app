@@ -4,9 +4,9 @@ import "../styles/globals.css";
 
 axios.defaults.baseURL =
   process.env.VERCEL_ENV === "production"
-    ? process.env.VERCEL_URL + "/api"
+    ? `${process.env.VERCEL_URL}/api`
     : process.env.BASE_URL
-    ? process.env.BASE_URL + "/api"
+    ? `${process.env.BASE_URL}/api`
     : "http://localhost:3000/api";
 
 function MyApp({ Component, pageProps }) {
