@@ -3,10 +3,10 @@ import axios from "axios";
 import "../styles/globals.css";
 
 axios.defaults.baseURL =
-  process.env.VERCEL_ENV === "production"
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? "https://nea-revision-app.vercel.app/api"
-    : process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api`
+    : process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
     : "http://localhost:3000/api";
 
 function MyApp({ Component, pageProps }) {
@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
     <SWRConfig
       value={{ fetcher: (url) => axios.get(url).then((res) => res.data) }}
     >
-      {console.log(process.env.VERCEL_URL)}
+      {console.log(process.env.NEXT_PUBLIC_VERCEL_URL)}
       <Component {...pageProps} />
     </SWRConfig>
   );
