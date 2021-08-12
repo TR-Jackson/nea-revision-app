@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
     <SWRConfig
       value={{ fetcher: (url) => axios.get(url).then((res) => res.data) }}
     >
+      {console.log(process.env.VERCEL_URL)}
       <Component {...pageProps} />
     </SWRConfig>
   );
