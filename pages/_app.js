@@ -2,6 +2,8 @@ import { SWRConfig } from "swr";
 import axios from "axios";
 import "../styles/globals.css";
 
+import Navbar from "../components/Navbar";
+
 axios.defaults.baseURL =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? "https://nea-revision-app.vercel.app/api"
@@ -14,6 +16,7 @@ function MyApp({ Component, pageProps }) {
     <SWRConfig
       value={{ fetcher: (url) => axios.get(url).then((res) => res.data) }}
     >
+      <Navbar />
       <Component {...pageProps} />
     </SWRConfig>
   );

@@ -35,7 +35,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex flex-col justify-start">
+    <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center">
       <p>This is the {isLogin ? "log" : "sign"} in page</p>
       <p>Username</p>
       <input

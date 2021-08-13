@@ -1,20 +1,10 @@
-import Cookies from "js-cookie";
-import Router from "next/router";
-
 import useUser from "../hooks/useUser";
 
 export default function Home() {
   const { user, mutateUser } = useUser({ redirectTo: "/auth" });
-
-  const logoutHandler = () => {
-    mutateUser(false);
-    Cookies.remove("jwt");
-    Router.push("/auth");
-  };
-
   if (user)
     return (
-      <div>
+      <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center">
         <p>This is the home page</p>
         <br />
         <ul>
@@ -25,8 +15,6 @@ export default function Home() {
             <li>No folders yet</li>
           )}
         </ul>
-        <br />
-        <button onClick={logoutHandler}>LOG OUT</button>
       </div>
     );
   return (
