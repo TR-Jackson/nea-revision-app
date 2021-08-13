@@ -10,10 +10,8 @@ export default function useUser({
 
   useEffect(() => {
     if (!redirectTo || user === undefined) {
-      console.log("no redirect or data not arrived");
       return;
     }
-    console.log("data arrived");
     if (
       (redirectTo && !redirectIfFound && !user) ||
       (redirectIfFound && user)

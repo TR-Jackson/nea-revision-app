@@ -36,7 +36,6 @@ export default function Auth() {
 
   return (
     <div className="flex flex-col justify-start">
-      {console.log("user: ", user)}
       <p>This is the {isLogin ? "log" : "sign"} in page</p>
       <p>Username</p>
       <input
