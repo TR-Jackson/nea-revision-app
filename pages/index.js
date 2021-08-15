@@ -1,33 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import Router from "next/router";
 
 import { newFolderForm } from "../lib/yupSchemas";
 import useUser from "../hooks/useUser";
 import Modal from "../components/Modal/Modal";
 import Button from "../components/UI/Button/Button";
+import axios from "axios";
 
 export default function Home() {
   const { user, mutateUser } = useUser({ redirectTo: "/auth" });
   const [createFolder, setCreateFolder] = useState(false);
 
   const newFolderHandler = (values) => {
+    const updatedFolders = [...user.folders];
+    const newFolder = {
+      ...values,
+      lastReview: new Date(),
+      progress: [0, 0, 0, 0, 0],
+    };
+    updatedFolders.push(newFolder);
+    mutateUser({ ...user, folders: updatedFolders });
+    Router.push(`/${user.username}/${values.folderName}`);
     console.log(values);
-    setCreateFolder(false);
+    axios.post("/folder/create", values);
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   if (user)
     return (
       <>
         <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center">
           <p>This is the home page</p>
           <br />
-          <ul>
-            <li>Hello {user.username}</li>
-            {user.folders.length !== 0 ? (
-              user.folders.map((folder, i) => <p key={i}>{folder}</p>)
-            ) : (
-              <li>No folders yet</li>
-            )}
-          </ul>
+          <p>Hello {user.username}</p>
+          <br />
+          {user.folders.length !== 0 ? (
+            user.folders.map((folder, i) => (
+              <p key={i}>
+                {folder.name}: {folder.description}
+              </p>
+            ))
+          ) : (
+            <li>No folders yet</li>
+          )}
+          <br />
           <button onClick={() => setCreateFolder(true)}>ADD FOLDER</button>
         </div>
         <Modal
