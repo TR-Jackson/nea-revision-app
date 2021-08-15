@@ -9,12 +9,16 @@ export default function Auth() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const { user, mutateUser } = useUser({
     redirectTo: "/",
     redirectIfFound: true,
   });
 
   const submitHandler = () => {
+    setError(false);
+    setIsLoading(true);
     axios
       .post(`/auth/${isLogin ? "login" : "register"}`, {
         username: username,
@@ -30,7 +34,11 @@ export default function Auth() {
         mutateUser(response.data.user);
         Router.push("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        setError(err);
+      });
   };
 
   return (
@@ -53,6 +61,8 @@ export default function Auth() {
       <button onClick={() => setIsLogin(!isLogin)}>
         Switch to {isLogin ? "sign up" : "log in"}
       </button>
+      {isLoading && <div className="spinner"></div>}
+      {error && <p>{error.message}</p>}
     </div>
   );
 }

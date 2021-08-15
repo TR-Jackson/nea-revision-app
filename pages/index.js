@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { newFolderForm } from "../lib/yupSchemas";
 import useUser from "../hooks/useUser";
 import Modal from "../components/Modal/Modal";
-import Button from "../components/UI/Button";
+import Button from "../components/UI/Button/Button";
 
 export default function Home() {
   const { user, mutateUser } = useUser({ redirectTo: "/auth" });
@@ -86,7 +86,7 @@ export default function Home() {
     );
   return (
     <div>
-      <p>Loading...</p>
+      <div className="loader"></div>
     </div>
   );
 }
