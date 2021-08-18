@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Router from "next/router";
 import Cookies from "js-cookie";
 
+import AuthForm from "../components/Forms/AuthForm";
 import useUser from "../hooks/useUser";
+import Button from "../components/UI/Button/Button";
 
 export default function Auth() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -16,7 +16,8 @@ export default function Auth() {
     redirectIfFound: true,
   });
 
-  const submitHandler = () => {
+  const submitHandler = ({ username, password } = {}) => {
+    console.log("submit");
     setError(false);
     setIsLoading(true);
     axios
@@ -48,8 +49,8 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center">
-      <p>This is the {isLogin ? "log" : "sign"} in page</p>
+    <div className="mt-6 w-2/3 mx-auto flex-initial text-center">
+      {/* <p>This is the {isLogin ? "log" : "sign"} in page</p>
       <p>Username</p>
       <input
         onChange={(event) => {
@@ -64,15 +65,20 @@ export default function Auth() {
         }}
       />
       <button onClick={submitHandler}>{isLogin ? "LOG IN" : "SIGN UP"}</button>
-      <button onClick={() => setIsLogin(!isLogin)}>
-        Switch to {isLogin ? "sign up" : "log in"}
-      </button>
-      {isLoading && <div className="spinner"></div>}
+
+       */}
+      <AuthForm submitHandler={submitHandler} />
+      <div className="w-full my-3">
+        <Button onClick={() => setIsLogin(!isLogin)}>
+          Switch to {isLogin ? "sign up" : "log in"}
+        </Button>
+      </div>
       {error && (
         <div className="m-auto mt-6 w-1/5 text-center border border-red-600 bg-red-200">
           <p>{error}</p>
         </div>
       )}
+      {isLoading && <div className="spinner"></div>}
     </div>
   );
 }

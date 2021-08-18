@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useState } from "react";
 import Router from "next/router";
 import { FolderOpenIcon, BookOpenIcon } from "@heroicons/react/outline";
 
-import { newFolderForm } from "../lib/yupSchemas";
+import NewFolderForm from "../components/Forms/NewFolder";
 import useUser from "../hooks/useUser";
 import Modal from "../components/Modal/Modal";
 import Button from "../components/UI/Button/Button";
@@ -36,7 +35,7 @@ export default function Home() {
               user.folders.map((folder, i) => (
                 <div
                   key={i}
-                  className="bg-blue-chill-400 sm:min-w-full p-2 my-6 flex m-auto shadow-md rounded-md mb-0 hover:bg-blue-chill-300 h-auto lg:w-3/5"
+                  className="bg-blue-chill-400 sm:min-w-full p-2 my-6 flex m-auto shadow-md rounded-md mb-0 hover:bg-blue-chill-300 h-auto lg:w-3/5 py-4 px-3"
                 >
                   <div className="ml-1">
                     <FolderOpenIcon
@@ -60,7 +59,7 @@ export default function Home() {
                 </div>
               ))
             ) : (
-              <li>No folders yet</li>
+              <p className="italic">No folders yet</p>
             )}
           </div>
           <div>
@@ -76,50 +75,10 @@ export default function Home() {
           title="Create New Folder"
           buttons={false}
         >
-          <Formik
-            onSubmit={(values) => newFolderHandler(values)}
-            initialValues={{ folderName: "", description: "" }}
-            validationSchema={newFolderForm}
-          >
-            {({ errors, values, handleSubmit }) => (
-              <Form className="flex flex-col space-y-2">
-                <p className="block text-gray-700 text-sm font-bold mb-2">
-                  Folder Name
-                </p>
-                <Field
-                  name="folderName"
-                  className={`shadow appearance-none border ${
-                    errors.folderName
-                      ? "border-red-500"
-                      : "border-blue-chill-500"
-                  } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
-                />
-                <ErrorMessage
-                  name="folderName"
-                  render={(msg) => <p className="text-red-600">{msg}</p>}
-                />
-                <p className="block text-gray-700 text-sm font-bold mb-2">
-                  Description (optional)
-                </p>
-                <Field
-                  name="description"
-                  type="textarea"
-                  className={`shadow appearance-none border ${
-                    errors.description
-                      ? "border-red-500"
-                      : "border-blue-chill-500"
-                  } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
-                />
-                <ErrorMessage name="description" component="div" />
-                <div className="bg-gray-50 px-4 py-3 sm:space-y-2 sm:px-6 sm:flex sm:flex-row-reverse">
-                  <Button main onClick={() => handleSubmit(values)}>
-                    Submit
-                  </Button>
-                  <Button onClick={() => setCreateFolder(false)}>Cancel</Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+          <NewFolderForm
+            submitHandler={newFolderHandler}
+            cancelHandler={() => setCreateFolder(false)}
+          />
         </Modal>
       </>
     );
