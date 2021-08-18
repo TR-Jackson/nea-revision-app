@@ -24,15 +24,21 @@ export default function Auth() {
         username: username,
         password: password,
       })
-      .then((response) => {
-        const today = new Date();
-        const expires = new Date(
-          today.getTime() + parseInt(response.data.jwt.expires)
-        );
-        const jwt = response.data.jwt.token.replace("Bearer ", "");
-        Cookies.set("jwt", jwt, { expires: expires });
-        mutateUser(response.data.user);
-        Router.push("/");
+      .then((res) => {
+        if (!res.data.success) {
+          console.log(res.data);
+          setError(res.data.message);
+          setIsLoading(false);
+        } else {
+          const today = new Date();
+          const expires = new Date(
+            today.getTime() + parseInt(res.data.jwt.expires)
+          );
+          const jwt = res.data.jwt.token.replace("Bearer ", "");
+          Cookies.set("jwt", jwt, { expires: expires });
+          mutateUser(res.data.user);
+          Router.push("/");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -62,7 +68,11 @@ export default function Auth() {
         Switch to {isLogin ? "sign up" : "log in"}
       </button>
       {isLoading && <div className="spinner"></div>}
-      {error && <p>{error.message}</p>}
+      {error && (
+        <div className="m-auto mt-6 w-1/5 text-center border border-red-600 bg-red-200">
+          <p>{error}</p>
+        </div>
+      )}
     </div>
   );
 }

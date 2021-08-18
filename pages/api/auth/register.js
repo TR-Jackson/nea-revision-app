@@ -8,22 +8,23 @@ const handler = nextConnect();
 handler.use(passport.initialize()).post((req, res) => {
   passport.authenticate("local-register", function (error, user, info) {
     if (error) {
-      return res.status(500).json({
+      return res.json({
         message: error || "Something happend",
-        error: error.message || "Server error",
+        success: false,
       });
     }
     req.logIn(user, function (error, data) {
       if (error) {
-        return res.status(500).json({
+        return res.json({
           message: error || "Something happend",
-          error: error.message || "Server error",
+          success: false,
         });
       }
       const jwt = issueJWT(user);
       return res.json({
         jwt: jwt,
         user: { username: user.username, folders: user.folders },
+        success: true,
       });
     });
   })(req, res);

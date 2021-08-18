@@ -6,17 +6,17 @@ const handler = nextConnect()
   .post((req, res) => {
     passport.authenticate("local-login", function (error, user, token) {
       if (error) {
-        return res.status(500).json({
+        return res.json({
           message: error || "Something happend",
-          error: error.message || "Server error",
+          success: false,
         });
       }
 
       req.logIn(user, function (error, data) {
         if (error) {
-          return res.status(500).json({
+          return res.json({
             message: error || "Something happend",
-            error: error.message || "Server error",
+            success: false,
           });
         }
       });
@@ -24,6 +24,7 @@ const handler = nextConnect()
       return res.json({
         jwt: token,
         user: { username: user.username, folders: user.folders },
+        success: true,
       });
     })(req, res);
   });
