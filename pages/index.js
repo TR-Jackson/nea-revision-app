@@ -20,7 +20,7 @@ export default function Home() {
       progress: [0, 0, 0, 0, 0],
     };
     updatedFolders.push(newFolder);
-    mutateUser({ ...user, folders: updatedFolders });
+    mutateUser({ ...user, folders: updatedFolders }, false);
     Router.push(`/${user.username}/${values.folderName}`);
     axios.post("/folder/create", values);
   };

@@ -50,23 +50,6 @@ export default function Auth() {
 
   return (
     <div className="mt-6 w-2/3 mx-auto flex-initial text-center">
-      {/* <p>This is the {isLogin ? "log" : "sign"} in page</p>
-      <p>Username</p>
-      <input
-        onChange={(event) => {
-          setUsername(event.target.value);
-        }}
-      />
-      <p>Password</p>
-      <input
-        type="password"
-        onChange={(event) => {
-          setPassword(event.target.value);
-        }}
-      />
-      <button onClick={submitHandler}>{isLogin ? "LOG IN" : "SIGN UP"}</button>
-
-       */}
       <AuthForm submitHandler={submitHandler} />
       <div className="w-full my-3">
         <Button onClick={() => setIsLogin(!isLogin)}>

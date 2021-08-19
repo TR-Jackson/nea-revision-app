@@ -8,7 +8,7 @@ export default function Navbar() {
   const { user, mutateUser } = useUser();
 
   const logoutHandler = () => {
-    mutateUser(false);
+    mutateUser(false, false);
     Cookies.remove("jwt");
     Router.push("/auth");
   };
