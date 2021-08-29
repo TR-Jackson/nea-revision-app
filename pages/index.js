@@ -15,11 +15,13 @@ export default function Home() {
   const newFolderHandler = (values) => {
     const updatedFolders = [...user.folders];
     const newFolder = {
-      ...values,
+      name: values.folderName,
+      description: values.description,
       lastReview: new Date(),
       progress: [0, 0, 0, 0, 0],
     };
     updatedFolders.push(newFolder);
+    console.log(updatedFolders);
     mutateUser({ ...user, folders: updatedFolders }, false);
     Router.push(`/${user.username}/${values.folderName}`);
     axios.post("/folder/create", values);
