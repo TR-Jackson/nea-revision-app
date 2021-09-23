@@ -23,6 +23,8 @@ const handler = nextConnect()
         if (!req.body?.folderName || req.body?.folderName?.length < 2)
           return res.status(400).json({ message: "Invalid foldername" });
 
+        // need to delete all related flashcards
+
         User.findOne(user).exec((err, user) => {
           if (err) {
             return res.status(500).json({

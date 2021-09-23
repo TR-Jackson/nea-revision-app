@@ -30,6 +30,7 @@ const handler = nextConnect()
               err: err.message || "Server error",
             });
           }
+          // need to check if folder already exists
           user.folders.push({
             name: req.body.folderName,
             progress: [0, 0, 0, 0, 0],
