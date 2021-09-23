@@ -5,8 +5,9 @@ const flashcardSchema = new mongoose.Schema({
   back: { type: String, required: true },
   folder: { type: String, required: true },
   owner: { type: String, required: true },
-  nextReview: { type: Date, required: true },
-  notStudied: { type: Boolean, required: true },
+  nextReview: { type: Date, default: new Date(0) },
+  notStudied: { type: Boolean, default: true },
+  box: { type: Number, default: 0 },
 });
 
 export default mongoose.models.Flashcard ||
