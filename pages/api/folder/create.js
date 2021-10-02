@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
 import passport from "../../../lib/passport";
 
-import User from "../../../models/User";
+import Folder from "../../../models/Folder";
 
 const handler = nextConnect()
   .use(passport.initialize())
@@ -23,21 +23,20 @@ const handler = nextConnect()
         if (!req.body?.folderName || req.body?.folderName?.length < 2)
           return res.status(400).json({ message: "Invalid foldername" });
 
-        User.findOne(user).exec((err, user) => {
+        Folder.findOne({ owner: user.username }).exec((err, folder) => {
           if (err) {
             return res.status(500).json({
               message: err || "Something happend",
               err: err.message || "Server error",
             });
           }
-          // need to check if folder already exists
-          user.folders.push({
-            name: req.body.folderName,
-            progress: [0, 0, 0, 0, 0],
-            lastReview: new Date(),
-            description: req.body?.description || "",
+          if (folder)
+            return res.status(400).json({ message: "Folder already exists" });
+          const newFolder = new Folder({
+            owner: user.username,
+            name: req.body?.folderName,
           });
-          user.save((err) => {
+          newFolder.save((err) => {
             if (err) {
               return res.status(500).json({
                 message: err || "Something happend",
