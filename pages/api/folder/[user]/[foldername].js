@@ -10,26 +10,27 @@ const handler = nextConnect()
       "local-jwt",
       { session: false },
       async function (err, user) {
-        if (err) {
-          return res.status(500).json({
-            message: err || "Something happend",
-            err: err.message || "Server error",
-          });
-        }
-        const { foldername, owner } = req.query;
-        const [err, folder] = await Folder.findOne({
-          owner: owner,
-          name: foldername,
-        });
-        if (err) {
-          return res.status(500).json({
-            message: err || "Something happend",
-            err: err.message || "Server error",
-          });
-        }
-        if (folder.isPrivate && (!user || user.username !== owner)) {
-          return res.status(401).json({ message: "Unauthorised" });
-        }
+        return res.json("hey");
+        // if (err) {
+        //   return res.status(500).json({
+        //     message: err || "Something happend",
+        //     err: err.message || "Server error",
+        //   });
+        // }
+        // const { foldername, owner } = req.query;
+        // const [error, folder] = await Folder.findOne({
+        //   owner: owner,
+        //   name: foldername,
+        // });
+        // if (err) {
+        //   return res.status(500).json({
+        //     message: err || "Something happend",
+        //     err: err.message || "Server error",
+        //   });
+        // }
+        // if (folder.isPrivate && (!user || user.username !== owner)) {
+        //   return res.status(401).json({ message: "Unauthorised" });
+        // }
         // return flashcards
       }
     )(req, res);
