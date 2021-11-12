@@ -37,7 +37,9 @@ const handler = nextConnect()
             const newFolder = new Folder({
               owner: user._id,
               name: req.body?.folderName,
+              description: req.body?.description,
             });
+            console.log(newFolder);
             newFolder.save((err, folder) => {
               if (err) {
                 return res.status(500).json({
