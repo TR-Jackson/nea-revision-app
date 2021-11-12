@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
-import passport from "../../../lib/passport";
+import passport from "../../../../lib/passport";
 
-import Folder from "../../../models/Folder";
+import Folder from "../../../../models/Folder";
 
 const handler = nextConnect()
   .use(passport.initialize())
