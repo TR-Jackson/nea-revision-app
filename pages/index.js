@@ -42,7 +42,7 @@ export default function Home() {
         <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
           <p className="font-bold text-2xl mt-6">Hello {user.username}</p>
           <div className="flex flex-col content-center">
-            {folders.length !== 0 ? (
+            {folders?.length !== 0 ? (
               folders.map((folder, i) => (
                 <div
                   key={i}

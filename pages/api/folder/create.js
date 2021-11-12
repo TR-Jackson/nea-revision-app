@@ -39,7 +39,6 @@ const handler = nextConnect()
               name: req.body?.folderName,
               description: req.body?.description,
             });
-            console.log(newFolder);
             newFolder.save((err, folder) => {
               if (err) {
                 return res.status(500).json({

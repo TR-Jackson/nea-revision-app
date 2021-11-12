@@ -7,7 +7,6 @@ export default function AuthForm({ submitHandler }) {
   return (
     <Formik
       onSubmit={(values) => {
-        console.log(values);
         submitHandler(values);
       }}
       initialValues={{ username: "", password: "" }}

@@ -17,7 +17,6 @@ export default function Auth() {
   });
 
   const submitHandler = ({ username, password } = {}) => {
-    console.log("submit");
     setError(false);
     setIsLoading(true);
     axios
@@ -27,7 +26,6 @@ export default function Auth() {
       })
       .then((res) => {
         if (!res.data.success) {
-          console.log(res.data);
           setError(res.data.message);
           setIsLoading(false);
         } else {
