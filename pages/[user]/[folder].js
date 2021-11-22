@@ -9,7 +9,7 @@ import useUser from "../../hooks/useUser";
 export default function Folder() {
   const router = useRouter();
   const { folder, user: owner } = router.query;
-  const { user, mutateUser } = useUser();
+  const [isLoading, setIsLoading] = useState(true);
   const [flashcards, setFlashcards] = useState([]);
   const [folderInfo, setFolderInfo] = useState();
 
@@ -28,18 +28,39 @@ export default function Folder() {
         .then((res) => {
           setFlashcards(res.data.flashcards);
           setFolderInfo(res.data.folder);
+          setIsLoading(false);
         })
         .catch((err) => console.log(err));
   }, []);
 
-  return (
+  return !isLoading ? (
+    <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
+      <div className="flex bg-blue-chill-200 rounded-md p-5 w-3/4 mx-auto">
+        <div className="flex flex-col flex-grow justify-center">
+          <p>Name: {folderInfo.name}</p>
+          <p>Description: {folderInfo.description}</p>
+        </div>
+        <div className="flex flex-col space-y-4 mx-2">
+          <Button danger onClick={deleteHandler}>
+            DELETE FOLDER
+          </Button>
+          <Button main onClick={deleteHandler}>
+            EDIT FOLDER
+          </Button>
+        </div>
+      </div>
+      <div>
+        {flashcards.map((card) => (
+          <div className="flex space-x-2">
+            <p>{card.front}</p>
+            <p>{card.back}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : (
     <div>
-      <p className="text-4xl font-bold">WIP</p>
-      <Button danger onClick={deleteHandler}>
-        DELETE FOLDER
-      </Button>
-      <p>This is the folder page for the folder: {folder}</p>
-      <p>For the user: {owner}</p>
+      <div className="loader"></div>
     </div>
   );
 }

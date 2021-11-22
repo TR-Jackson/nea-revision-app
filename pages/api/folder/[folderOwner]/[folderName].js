@@ -19,7 +19,6 @@ const handler = nextConnect()
           });
         }
         const { folderOwner, folderName } = req.query;
-        console.log(folderOwner, folderName);
         const owner = await User.findOne({ username: folderOwner });
         const folder = await Folder.findOne({
           owner: owner._id,
