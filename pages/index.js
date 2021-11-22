@@ -66,11 +66,11 @@ export default function Home() {
                     <p className="font-semibold text-xl">{folder.name}</p>
                     <p className="text-lg">{folder.description}</p>
                   </div>
-                  <p className="flex-grow flex my-auto justify-end space-x-4 pr-6">
+                  <div className="flex-grow flex my-auto justify-end space-x-4 pr-6">
                     {folder.boxStatus.map((count, i) => (
                       <p key={i}>{count}</p>
                     ))}
-                  </p>
+                  </div>
                 </div>
               ))
             ) : (

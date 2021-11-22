@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Router from "next/router";
 import { useRouter } from "next/router";
@@ -7,23 +8,29 @@ import useUser from "../../hooks/useUser";
 
 export default function Folder() {
   const router = useRouter();
-  const { folder, user: username } = router.query;
+  const { folder, user: owner } = router.query;
   const { user, mutateUser } = useUser();
+  const [flashcards, setFlashcards] = useState([]);
+  const [folderInfo, setFolderInfo] = useState();
 
   const deleteHandler = () => {
-    mutateUser(
-      {
-        ...user,
-        folders: user.folders.filter((f) => f.name !== folder),
-      },
-      false
-    );
     Router.push("/");
     axios
       .post("/folder/delete", { folderName: folder })
-      .then()
+      .then(console.log("deleted"))
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    if (router.isReady)
+      axios
+        .get(`/folder/${folder}/${owner}`)
+        .then((res) => {
+          setFlashcards(res.data.flashcards);
+          setFolderInfo(res.data.folder);
+        })
+        .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
@@ -32,7 +39,7 @@ export default function Folder() {
         DELETE FOLDER
       </Button>
       <p>This is the folder page for the folder: {folder}</p>
-      <p>For the user: {username}</p>
+      <p>For the user: {owner}</p>
     </div>
   );
 }
