@@ -20,12 +20,11 @@ const handler = nextConnect()
         // }
         req.body.flashcards.forEach((card) => {
           if (card?._id) {
-            Flashcard.findOne({ _id: card._id, owner: user.username }).exec(
-              async (err, existingCard) => {
+            Flashcard.findOne({ _id: card._id, owner: user._id }).exec(
+              (err, existingCard) => {
                 if (err) {
                   return res.status(500);
                 }
-                // model doesnt like spread :(
                 existingCard.front = card.front;
                 existingCard.back = card.back;
                 existingCard.box = req.body.refresh ? 0 : existingCard.box;
@@ -42,9 +41,10 @@ const handler = nextConnect()
             );
           } else {
             const newCard = new Flashcard({
-              ...card,
               folder: req.body.folder,
-              owner: user.username,
+              owner: user._id,
+              front: card.front,
+              back: card.back,
             });
             newCard.save((error) => {
               if (error) {
