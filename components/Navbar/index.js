@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <div className="bg-blue-chill-500 w-full h-12">
       <p className="font-semibold text-gray-50 text-center text-2xl p-1 cursor-default">
-        Authenticate
+        Revision App
       </p>
     </div>
   );

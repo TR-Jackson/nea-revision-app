@@ -6,7 +6,7 @@ import NewFolderForm from "../components/Forms/NewFolder";
 import useUser from "../hooks/useUser";
 import Modal from "../components/Modal/Modal";
 import Button from "../components/UI/Button/Button";
-import axios from "axios";
+import axios from "../lib/axiosConfig";
 
 export default function Home() {
   const { user, mutateUser } = useUser({ redirectTo: "/auth" });

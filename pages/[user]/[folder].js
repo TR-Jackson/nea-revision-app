@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../lib/axiosConfig";
 import Router from "next/router";
 import { useRouter } from "next/router";
-import Button from "../../components/UI/Button/Button";
 
-import useUser from "../../hooks/useUser";
+import Button from "../../components/UI/Button/Button";
 
 export default function Folder() {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function Folder() {
   };
 
   useEffect(() => {
-    if (router.isReady)
+    if (router.isReady) {
       axios
         .get(`/folder/${folder}/${owner}`)
         .then((res) => {
@@ -31,7 +30,8 @@ export default function Folder() {
           setIsLoading(false);
         })
         .catch((err) => console.log(err));
-  }, []);
+    }
+  }, [router.isReady]);
 
   return !isLoading ? (
     <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
@@ -50,8 +50,8 @@ export default function Folder() {
         </div>
       </div>
       <div>
-        {flashcards.map((card) => (
-          <div className="flex space-x-2">
+        {flashcards.map((card, i) => (
+          <div key={i} className="flex space-x-2">
             <p>{card.front}</p>
             <p>{card.back}</p>
           </div>

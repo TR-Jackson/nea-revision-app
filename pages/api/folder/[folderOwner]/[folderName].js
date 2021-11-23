@@ -24,7 +24,7 @@ const handler = nextConnect()
           owner: owner._id,
           name: folderName,
         });
-        if (folder.isPrivate && !user._id.equals(owner._id))
+        if (folder.isPrivate && !owner._id.equals(user._id))
           res.status(401).json({ message: "Unauthorised" });
 
         const flashcards = await Flashcard.find({
