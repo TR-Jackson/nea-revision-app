@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../lib/axiosConfig";
 import Router from "next/router";
 import Cookies from "js-cookie";
 
@@ -25,17 +25,16 @@ export default function Auth() {
         password: password,
       })
       .then((res) => {
-        if (!res.data.success) {
-          setError(res.data.message);
+        console.log(res);
+        if (!res.success) {
+          setError(res.message);
           setIsLoading(false);
         } else {
           const today = new Date();
-          const expires = new Date(
-            today.getTime() + parseInt(res.data.jwt.expires)
-          );
-          const jwt = res.data.jwt.token.replace("Bearer ", "");
+          const expires = new Date(today.getTime() + parseInt(res.jwt.expires));
+          const jwt = res.jwt.token.replace("Bearer ", "");
           Cookies.set("jwt", jwt, { expires: expires });
-          mutateUser(res.data.user);
+          mutateUser(res.user);
           Router.push("/");
         }
       })

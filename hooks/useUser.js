@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import Router from "next/router";
 import useSWR from "swr";
+import axios from "../lib/axiosConfig";
 
 export default function useUser({
   redirectTo = false,
   redirectIfFound = false,
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR("/user");
+  const { data: user, mutate: mutateUser } = useSWR("/user", axios);
 
   useEffect(() => {
     if (!redirectTo || user === undefined) {

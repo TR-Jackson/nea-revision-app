@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import Router from "next/router";
 import { FolderOpenIcon, BookOpenIcon } from "@heroicons/react/outline";
+import axios from "../lib/axiosConfig";
+import useSWR from "swr";
 
 import NewFolderForm from "../components/Forms/NewFolder";
 import useUser from "../hooks/useUser";
 import Modal from "../components/Modal/Modal";
 import Button from "../components/UI/Button/Button";
-import axios from "../lib/axiosConfig";
 
 export default function Home() {
   const { user, mutateUser } = useUser({ redirectTo: "/auth" });
   const [createFolder, setCreateFolder] = useState(false);
-  const [folders, setFolders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const { data: folders, mutate } = useSWR("/folder/retrieve", axios);
 
   const newFolderHandler = (values) => {
     const updatedFolders = [...folders];
@@ -24,19 +25,12 @@ export default function Home() {
       isPrivate: true,
     };
     updatedFolders.push(newFolder);
-    setFolders(updatedFolders);
+    mutate(updatedFolders);
     Router.push(`/${user.username}/${values.folderName}`);
     axios.post("/folder/create", values);
   };
 
-  useEffect(() => {
-    axios.get("/folder/retrieve").then((res) => {
-      setFolders(res.data.folders);
-      setIsLoading(false);
-    });
-  }, []);
-
-  if (user && !isLoading)
+  if (user && folders)
     return (
       <>
         <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">

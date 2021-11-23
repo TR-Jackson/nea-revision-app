@@ -26,7 +26,7 @@ const handler = nextConnect()
               err: err.message || "Server error",
             });
           }
-          return res.json({ folders: folders });
+          return res.json(folders);
         });
       }
     )(req, res);

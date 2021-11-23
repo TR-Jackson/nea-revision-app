@@ -20,10 +20,14 @@ const handler = nextConnect()
         }
         const { folderOwner, folderName } = req.query;
         const owner = await User.findOne({ username: folderOwner });
+        if (!owner) {
+          return res.status(404).json();
+        }
         const folder = await Folder.findOne({
           owner: owner._id,
           name: folderName,
         });
+        if (!folder) return res.status(404).json();
         if (folder.isPrivate && !owner._id.equals(user._id))
           res.status(401).json({ message: "Unauthorised" });
 
