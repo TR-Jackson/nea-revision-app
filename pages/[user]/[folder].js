@@ -57,12 +57,17 @@ export default function Folder() {
             </div>
           </div>
         ))}
+        <div className="flex space-x-2">
+          <div className="bg-blue-chill-400 w-full py-6 px-10 flex justify-between">
+            <p>card front</p>
+            <p>card back</p>
+            <p>save button</p>
+          </div>
+        </div>
       </div>
       {isLoading && <div className="spinner"></div>}
     </div>
   ) : (
-    <div>
-      <div className="loader"></div>
-    </div>
+    <div className="loader"></div>
   );
 }
