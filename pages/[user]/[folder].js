@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "../../lib/axiosConfig";
 import Router from "next/router";
 import { useRouter } from "next/router";
