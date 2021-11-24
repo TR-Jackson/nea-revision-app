@@ -1,27 +1,44 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../../lib/axiosConfig";
 import Router from "next/router";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import useFolders from "../../hooks/useFolders";
 
 import Button from "../../components/UI/Button/Button";
 
 export default function Folder() {
   const router = useRouter();
-  const { folder: foldername, user: owner } = router.query;
+  const { folder: folderName, user: owner } = router.query;
+  const { folders, mutateFolders } = useFolders();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data: folderData } = useSWR(
-    router.isReady && `/folder/${owner}/${foldername}`,
+    router.isReady && `/folder/${owner}/${folderName}`,
     router.isReady && axios
   );
 
   const deleteHandler = () => {
-    Router.push("/");
+    setIsLoading(true);
+    console.log(
+      "deleting: ",
+      folders.filter((folder) => folder.name !== folderName)
+    );
+    mutateFolders(
+      folders.filter((folder) => folder.name !== folderName),
+      false
+    );
     axios
       .post("/folder/delete", { folderName: folderName })
-      .then(console.log("deleted"))
+      .then((res) => {
+        Router.push("/");
+      })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    console.log("folder state", folders);
+  }, [folders]);
 
   return folderData ? (
     <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
@@ -49,6 +66,7 @@ export default function Folder() {
           </div>
         ))}
       </div>
+      {isLoading && <div className="spinner"></div>}
     </div>
   ) : (
     <div>

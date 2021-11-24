@@ -1,7 +1,8 @@
 import nextConnect from "next-connect";
 import passport from "../../../lib/passport";
 
-import User from "../../../models/User";
+import Flashcard from "../../../models/Flashcard";
+import Folder from "../../../models/Folder";
 
 const handler = nextConnect()
   .use(passport.initialize())
@@ -9,7 +10,7 @@ const handler = nextConnect()
     passport.authenticate(
       "local-jwt",
       { session: false },
-      function (err, user) {
+      async function (err, user) {
         if (err) {
           return res.status(500).json({
             message: err || "Something happend",
@@ -23,28 +24,15 @@ const handler = nextConnect()
         if (!req.body?.folderName || req.body?.folderName?.length < 2)
           return res.status(400).json({ message: "Invalid foldername" });
 
-        // need to delete all related flashcards
-
-        User.findOne(user).exec((err, user) => {
-          if (err) {
-            return res.status(500).json({
-              message: err || "Something happend",
-              err: err.message || "Server error",
-            });
-          }
-          user.folders = user.folders.filter(
-            (folder) => folder.name !== req.body.folderName
-          );
-          user.save((err) => {
-            if (err) {
-              return res.status(500).json({
-                message: err || "Something happend",
-                err: err.message || "Server error",
-              });
-            }
-            return res.json({ success: true });
-          });
+        const folder = await Folder.findOne({
+          owner: user._id,
+          name: req.body.folderName,
         });
+        if (!folder)
+          return res.status(400).json({ message: "Invalid foldername" });
+        await Flashcard.deleteMany({ folder: folder._id });
+        await Folder.deleteOne(folder);
+        return res.status(200).json();
       }
     )(req, res);
   });
