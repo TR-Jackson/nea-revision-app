@@ -14,7 +14,7 @@ export default function Home() {
   const [createFolder, setCreateFolder] = useState(false);
   const { folders, mutateFolders } = useFolders();
 
-  const newFolderHandler = (values) => {
+  const newFolderHandler = async (values) => {
     const updatedFolders = [...folders];
     const newFolder = {
       name: values.folderName,
@@ -25,8 +25,8 @@ export default function Home() {
     };
     updatedFolders.push(newFolder);
     mutateFolders(updatedFolders, false);
+    await axios.post("/folder/create", values);
     Router.push(`/${user.username}/${values.folderName}`);
-    axios.post("/folder/create", values);
   };
 
   if (user && folders)
