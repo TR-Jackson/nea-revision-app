@@ -2,6 +2,7 @@ import nextConnect from "next-connect";
 import passport from "../../../lib/passport";
 
 import Flashcard from "../../../models/Flashcard";
+import Folder from "../../../models/Folder";
 
 const handler = nextConnect()
   .use(passport.initialize())
@@ -9,15 +10,16 @@ const handler = nextConnect()
     passport.authenticate(
       "local-jwt",
       { session: false },
-      function (err, user) {
-        if (err) {
-          return res.status(500);
-        }
+      async function (err, user) {
+        if (err) return res.status(401);
+
         if (!user) return res.status(401).json({ message: "Unauthorised" });
         // req: {
-        // folder
+        // foldername
         // flashcards: [{front, back, ?id, ?refresh}]
         // }
+        const folder = await Folder.findOne({ name: req.body.folderName });
+        if (!folder) return res.status(404);
         req.body.flashcards.forEach((card) => {
           if (card?._id) {
             Flashcard.findOne({ _id: card._id, owner: user._id }).exec(
@@ -41,7 +43,7 @@ const handler = nextConnect()
             );
           } else {
             const newCard = new Flashcard({
-              folder: req.body.folder,
+              folder: folder._id,
               owner: user._id,
               front: card.front,
               back: card.back,

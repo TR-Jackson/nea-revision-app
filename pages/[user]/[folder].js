@@ -20,10 +20,6 @@ export default function Folder() {
 
   const deleteHandler = () => {
     setIsLoading(true);
-    console.log(
-      "deleting: ",
-      folders.filter((folder) => folder.name !== folderName)
-    );
     mutateFolders(
       folders.filter((folder) => folder.name !== folderName),
       false
@@ -35,10 +31,6 @@ export default function Folder() {
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    console.log("folder state", folders);
-  }, [folders]);
 
   return folderData ? (
     <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
