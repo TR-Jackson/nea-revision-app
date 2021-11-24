@@ -29,10 +29,6 @@ export default function Home() {
     axios.post("/folder/create", values);
   };
 
-  useEffect(() => {
-    console.log("index state", folders);
-  }, [folders]);
-
   if (user && folders)
     return (
       <>

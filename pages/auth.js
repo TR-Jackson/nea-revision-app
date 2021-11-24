@@ -25,7 +25,6 @@ export default function Auth() {
         password: password,
       })
       .then((res) => {
-        console.log(res);
         if (!res.success) {
           setError(res.message);
           setIsLoading(false);
