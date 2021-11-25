@@ -32,6 +32,7 @@ export default function Home() {
   if (user && folders)
     return (
       <>
+        <title>Revision App</title>
         <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
           <p className="font-bold text-2xl mt-6">Hello {user.username}</p>
           <div className="flex flex-col content-center">

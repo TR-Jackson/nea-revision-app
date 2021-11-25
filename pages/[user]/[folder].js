@@ -35,24 +35,24 @@ export default function Folder() {
       .catch((err) => console.log(err));
   };
 
-  const saveFlashcardHandler = (isNew, values) => {
+  const saveFlashcardHandler = async (isNew, values) => {
     const newFlashcard = { front: values.front, back: values.back };
     const updatedFolder = { ...folderData };
     if (isNew) updatedFolder.flashcards.push(newFlashcard);
-    console.log(updatedFolder);
-    mutate(updatedFolder);
-    axios.post("/folder/update", {
+    await axios.post("/folder/update", {
       folder: folderData.folder.name,
       flashcards: [newFlashcard],
     });
+    mutate(updatedFolder);
   };
 
   return folderData ? (
     <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
-      <div className="flex bg-blue-chill-200 rounded-md p-5 w-3/4 mx-auto">
-        <div className="flex flex-col flex-grow justify-center font-semibold text-lg">
-          <p>Name: {folderData.folder.name}</p>
-          <p>Description: {folderData.folder.description}</p>
+      <title>Revision App - {folderName}</title>
+      <div className="flex bg-blue-chill-200 rounded-md p-5 w-3/4 mx-auto shadow-md">
+        <div className="flex flex-col flex-grow justify-center font-semibold text-lg space-y-2">
+          <p className="text-4xl font-bold">{folderData.folder.name}</p>
+          <p className="text-2xl">{folderData.folder.description}</p>
         </div>
         <div className="flex flex-col space-y-4 mx-2">
           <Button danger onClick={deleteHandler}>
@@ -79,14 +79,15 @@ export default function Folder() {
           </div>
         ))}
         <div className="flex space-x-2">
-          <div className="bg-blue-chill-400 w-full py-6 px-10 flex justify-between rounded-lg">
+          <div className="bg-blue-chill-200 w-full py-6 px-10 flex justify-between rounded-lg border-4 border-blue-chill-700 mt-8">
             <Formik
               initialValues={{ front: "", back: " " }}
               validationSchema={flashcardFormSchema}
               onSubmit={(values) => saveFlashcardHandler(true, values)}
             >
               {({ handleSubmit, errors, values }) => (
-                <Form className="bg-blue-chill-400 w-full flex justify-between content-center font-semibold">
+                <Form className="w-full flex justify-between items-center content-center font-semibold mx-10">
+                  <p className="text-xl">Add a new card</p>
                   <div>
                     <p>Front</p>
                     <Field
