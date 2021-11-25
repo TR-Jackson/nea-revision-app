@@ -4,8 +4,11 @@ import Router from "next/router";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import useFolders from "../../hooks/useFolders";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 
 import Button from "../../components/UI/Button/Button";
+import { flashcardFormSchema } from "../../lib/yupSchemas";
 
 export default function Folder() {
   const router = useRouter();
@@ -13,7 +16,7 @@ export default function Folder() {
   const { folders, mutateFolders } = useFolders();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: folderData } = useSWR(
+  const { data: folderData, mutate } = useSWR(
     router.isReady && `/folder/${owner}/${folderName}`,
     router.isReady && axios
   );
@@ -32,10 +35,22 @@ export default function Folder() {
       .catch((err) => console.log(err));
   };
 
+  const saveFlashcardHandler = (isNew, values) => {
+    const newFlashcard = { front: values.front, back: values.back };
+    const updatedFolder = { ...folderData };
+    if (isNew) updatedFolder.flashcards.push(newFlashcard);
+    console.log(updatedFolder);
+    mutate(updatedFolder);
+    axios.post("/folder/update", {
+      folder: folderData.folder.name,
+      flashcards: [newFlashcard],
+    });
+  };
+
   return folderData ? (
     <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
       <div className="flex bg-blue-chill-200 rounded-md p-5 w-3/4 mx-auto">
-        <div className="flex flex-col flex-grow justify-center font-semibold">
+        <div className="flex flex-col flex-grow justify-center font-semibold text-lg">
           <p>Name: {folderData.folder.name}</p>
           <p>Description: {folderData.folder.description}</p>
         </div>
@@ -50,18 +65,66 @@ export default function Folder() {
       </div>
       <div className="w-full m-auto">
         {folderData.flashcards.map((card, i) => (
-          <div key={i} className="flex space-x-2">
-            <div className="bg-blue-chill-400 w-full py-6 px-10 flex justify-between">
+          <div key={i} className="flex my-6 text-lg">
+            <div className="bg-blue-chill-400 w-full py-11 px-10 grid grid-cols-2 gap-4 space-x-6 items-center rounded-l-lg divide-x divide-blue-chill-600 mx-auto">
               <p>{card.front}</p>
               <p>{card.back}</p>
+            </div>
+            <div className="bg-blue-chill-600 m-auto h-32 px-2 rounded-r-lg">
+              <div className="flex flex-col justify-evenly h-full">
+                <PencilAltIcon className="h-9 w-9" />
+                <TrashIcon className="h-9 w-9" />
+              </div>
             </div>
           </div>
         ))}
         <div className="flex space-x-2">
-          <div className="bg-blue-chill-400 w-full py-6 px-10 flex justify-between">
-            <p>card front</p>
-            <p>card back</p>
-            <p>save button</p>
+          <div className="bg-blue-chill-400 w-full py-6 px-10 flex justify-between rounded-lg">
+            <Formik
+              initialValues={{ front: "", back: " " }}
+              validationSchema={flashcardFormSchema}
+              onSubmit={(values) => saveFlashcardHandler(true, values)}
+            >
+              {({ handleSubmit, errors, values }) => (
+                <Form className="bg-blue-chill-400 w-full flex justify-between content-center font-semibold">
+                  <div>
+                    <p>Front</p>
+                    <Field
+                      name="front"
+                      type="front"
+                      className={`shadow appearance-none border ${
+                        errors.front
+                          ? "border-red-500"
+                          : "border-blue-chill-500"
+                      } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+                    />
+                    <ErrorMessage
+                      name="front"
+                      render={(msg) => <p className="text-red-600">{msg}</p>}
+                    />
+                  </div>
+                  <div>
+                    <p>Back</p>
+                    <Field
+                      name="back"
+                      type="back"
+                      className={`shadow appearance-none border ${
+                        errors.back ? "border-red-500" : "border-blue-chill-500"
+                      } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+                    />
+                    <ErrorMessage
+                      name="back"
+                      render={(msg) => <p className="text-red-600">{msg}</p>}
+                    />
+                  </div>
+                  <div className="w-auto self-center">
+                    <Button main onClick={() => handleSubmit(values)}>
+                      Submit
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
