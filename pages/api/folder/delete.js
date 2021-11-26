@@ -21,15 +21,14 @@ const handler = nextConnect()
           return res.status(401).json({ message: "Unauthorised" });
         }
 
-        if (!req.body?.folderName || req.body?.folderName?.length < 2)
-          return res.status(400).json({ message: "Invalid foldername" });
+        if (!req.body?.folder || req.body?.folder?.length < 2)
+          return res.status(400).json({ message: "Invalid folder" });
 
         const folder = await Folder.findOne({
           owner: user._id,
-          name: req.body.folderName,
+          name: req.body.folder,
         });
-        if (!folder)
-          return res.status(400).json({ message: "Invalid foldername" });
+        if (!folder) return res.status(400).json({ message: "Invalid folder" });
         await Flashcard.deleteMany({ folder: folder._id });
         await Folder.deleteOne(folder);
         return res.status(200).json();

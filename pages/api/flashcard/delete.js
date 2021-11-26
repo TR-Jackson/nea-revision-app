@@ -3,6 +3,11 @@ import passport from "../../../lib/passport";
 
 import Flashcard from "../../../models/Flashcard";
 import Folder from "../../../models/Folder";
+import {
+  checkAuthError,
+  checkAuthorised,
+  checkReqBody,
+} from "../../../util/errors";
 
 const handler = nextConnect()
   .use(passport.initialize())
@@ -11,15 +16,10 @@ const handler = nextConnect()
       "local-jwt",
       { session: false },
       async function (err, user) {
-        if (err) {
-          return res.status(500).json({
-            message: err || "Something happend",
-            err: err.message || "Server error",
-          });
-        }
-        if (!user) {
-          return res.status(401).json({ message: "Unauthorised" });
-        }
+        checkAuthError(err);
+        checkAuthorised(res, user);
+        console.log("shouldnt reach");
+        checkReqBody(res, req.body, "/folder/delete");
 
         const flashcard = await Flashcard.findOne({
           _id: req.body.flashcardId,
