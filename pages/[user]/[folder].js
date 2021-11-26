@@ -45,16 +45,20 @@ export default function Folder() {
   };
 
   const saveFlashcardHandler = async (isNew, values) => {
-    const newFlashcard = { front: values.front, back: values.back };
-    const updatedFolder = { ...folderData };
-    if (isNew) updatedFolder.flashcards.push(newFlashcard);
-    console.log(folderData.flashcards);
-    console.log(updatedFolder);
-    mutate(updatedFolder, false);
-    await axios.post("/folder/update", {
+    setIsLoading(true);
+    const res = await axios.post("/folder/update", {
       folder: folderData.folder.name,
-      flashcards: [newFlashcard],
+      flashcards: [{ front: values.front, back: values.back }],
     });
+    console.log(res);
+    const updatedFolder = { ...folderData };
+    console.log(updatedFolder.flashcards.concat(res.flashcards));
+    let updatedFlashcards;
+    if (isNew)
+      updatedFlashcards = updatedFolder.flashcards.concat(res.flashcards);
+    updatedFolder.flashcards = updatedFlashcards;
+    mutate(updatedFolder, false);
+    setIsLoading(false);
   };
 
   return folderData ? (
@@ -64,7 +68,6 @@ export default function Folder() {
         <div className="flex flex-col flex-grow justify-center font-semibold text-lg space-y-2">
           <p className="text-4xl font-bold">{folderData.folder.name}</p>
           <p className="text-2xl">{folderData.folder.description}</p>
-          {isLoading && <div className="spinner"></div>}
         </div>
         <div className="flex flex-col space-y-4 mx-2">
           <Button danger onClick={deleteFolderHandler}>
@@ -84,9 +87,9 @@ export default function Folder() {
             </div>
             <div className="bg-blue-chill-600 m-auto h-32 px-2 rounded-r-lg">
               <div className="flex flex-col justify-evenly h-full">
-                <PencilAltIcon className="h-9 w-9 cursor-pointer hover:text-gray-50 hover:text-blue-chill-50" />
+                <PencilAltIcon className="h-9 w-9 cursor-pointer hover:text-blue-chill-50" />
                 <TrashIcon
-                  className="h-9 w-9 cursor-pointer hover:text-gray-50 hover:text-blue-chill-50"
+                  className="h-9 w-9 cursor-pointer hover:text-blue-chill-50"
                   onClick={() => deleteFlashcardHandler(card._id)}
                 />
               </div>

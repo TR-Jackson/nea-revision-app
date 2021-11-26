@@ -22,9 +22,17 @@ const handler = nextConnect()
           name: req.body.folder,
           owner: user._id,
         });
-        const boxStatus = [...folder.boxStatus];
         if (!folder) return res.status(404).json();
-        req.body.flashcards.forEach((card) => {
+
+        const boxStatus = [...folder.boxStatus];
+        const newCards = [];
+
+        const cb = (newCard) => {
+          newCards.push(newCard);
+        };
+
+        req.body.flashcards.forEach(async (card) => {
+          console.log(newCards);
           if (card?._id) {
             Flashcard.findOne({ _id: card._id, owner: user._id }).exec(
               (err, existingCard) => {
@@ -51,15 +59,16 @@ const handler = nextConnect()
               front: card.front,
               back: card.back,
             });
-            newCard.save((error) => {
+            await newCard.save((error, inserted) => {
               if (error) return res.status(500).json();
+              cb(inserted);
             });
             boxStatus[0] = boxStatus[0] + 1;
           }
         });
         folder.boxStatus = boxStatus;
         await folder.save();
-        return res.json({ success: true });
+        return res.json({ flashcards: newCards });
       }
     )(req, res);
   });
