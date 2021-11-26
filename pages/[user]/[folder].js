@@ -21,7 +21,16 @@ export default function Folder() {
     router.isReady && axios
   );
 
-  const deleteHandler = () => {
+  const deleteFlashcardHandler = async (_id) => {
+    const updatedFolder = { ...folderData };
+    updatedFolder.flashcards = updatedFolder.flashcards.filter(
+      (card) => card._id !== _id
+    );
+    mutate(updatedFolder, false);
+    await axios.post("/flashcard/delete", { flashcardId: _id });
+  };
+
+  const deleteFolderHandler = () => {
     setIsLoading(true);
     mutateFolders(
       folders.filter((folder) => folder.name !== folderName),
@@ -39,11 +48,13 @@ export default function Folder() {
     const newFlashcard = { front: values.front, back: values.back };
     const updatedFolder = { ...folderData };
     if (isNew) updatedFolder.flashcards.push(newFlashcard);
+    console.log(folderData.flashcards);
+    console.log(updatedFolder);
+    mutate(updatedFolder, false);
     await axios.post("/folder/update", {
       folder: folderData.folder.name,
       flashcards: [newFlashcard],
     });
-    mutate(updatedFolder);
   };
 
   return folderData ? (
@@ -53,9 +64,10 @@ export default function Folder() {
         <div className="flex flex-col flex-grow justify-center font-semibold text-lg space-y-2">
           <p className="text-4xl font-bold">{folderData.folder.name}</p>
           <p className="text-2xl">{folderData.folder.description}</p>
+          {isLoading && <div className="spinner"></div>}
         </div>
         <div className="flex flex-col space-y-4 mx-2">
-          <Button danger onClick={deleteHandler}>
+          <Button danger onClick={deleteFolderHandler}>
             DELETE FOLDER
           </Button>
           <Button main onClick={() => alert("edit")}>
@@ -72,8 +84,11 @@ export default function Folder() {
             </div>
             <div className="bg-blue-chill-600 m-auto h-32 px-2 rounded-r-lg">
               <div className="flex flex-col justify-evenly h-full">
-                <PencilAltIcon className="h-9 w-9" />
-                <TrashIcon className="h-9 w-9" />
+                <PencilAltIcon className="h-9 w-9 cursor-pointer hover:text-gray-50 hover:text-blue-chill-50" />
+                <TrashIcon
+                  className="h-9 w-9 cursor-pointer hover:text-gray-50 hover:text-blue-chill-50"
+                  onClick={() => deleteFlashcardHandler(card._id)}
+                />
               </div>
             </div>
           </div>
