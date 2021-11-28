@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import handleError from "../middleware/db";
+
 const flashcardSchema = new mongoose.Schema({
   front: { type: String, required: true },
   back: { type: String, required: true },
@@ -9,6 +11,12 @@ const flashcardSchema = new mongoose.Schema({
   notStudied: { type: Boolean, default: true },
   box: { type: Number, default: 0 },
 });
+
+flashcardSchema.post("save", handleError);
+flashcardSchema.post("find", handleError);
+flashcardSchema.post("findOne", handleError);
+flashcardSchema.post("deleteOne", handleError);
+flashcardSchema.post("deleteMany", handleError);
 
 export default mongoose.models.Flashcard ||
   mongoose.model("Flashcard", flashcardSchema);

@@ -6,45 +6,47 @@ import {
   reqUpdateFolderSchema,
 } from "../lib/yupSchemas";
 
-export function checkReqBody(res, body, route) {
-  console.log("checking");
+export function checkReqBody(body, route) {
   let error = false;
   switch (route) {
     case "/auth/login":
-      if (!reqAuthSchema.isValid(body)) error = true;
+      if (!reqAuthSchema.isValidSync(body)) error = true;
+      break;
 
     case "/auth/register":
-      if (!reqAuthSchema.isValid(body)) error = true;
+      if (!reqAuthSchema.isValidSync(body)) error = true;
+      break;
 
     case "/flashcard/delete":
-      if (!reqDeleteFlashcardSchema.isValid(body)) error = true;
+      if (!reqDeleteFlashcardSchema.isValidSync(body)) error = true;
+      break;
 
     case "/folder/create":
-      if (!reqCreateFolderSchema.isValid(body)) error = true;
+      if (!reqCreateFolderSchema.isValidSync(body)) error = true;
+      break;
 
     case "/folder/delete":
-      if (!reqDeleteFolderSchema.isValid(body)) error = true;
+      if (!reqDeleteFolderSchema.isValidSync(body)) error = true;
+      break;
 
     case "/folder/update":
-      if (!reqUpdateFolderSchema.isValid(body)) error = true;
+      if (!reqUpdateFolderSchema.isValidSync(body)) error = true;
+      break;
+
+    default:
+      throw { message: "Server Error - Should not be reached", status: 500 };
   }
   if (error) {
-    console.log("bad");
-    return res.status(400).json({ message: "Bad request" });
+    throw { message: "Bad request", status: 400 };
   } else return;
 }
 
-export function checkAuthError(res, error) {
-  console.log("bruh");
-  if (error) return res.status(500).json({ message: "Error authenticating" });
+export function checkAuthError(error) {
+  if (error) throw { message: error || "Error authenticating", status: 500 };
   else return;
 }
 
-export function checkAuthorised(res, user) {
-  if (!user) return res.status(401).json({ message: "Unauthorised" });
+export function checkAuthorised(user) {
+  if (!user) throw { message: "Unauthorised", status: 401 };
   else return;
-}
-
-export function mongoError(res) {
-  res.status(500).sjon({ message: "Database error" });
 }

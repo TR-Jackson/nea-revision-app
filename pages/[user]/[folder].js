@@ -50,9 +50,7 @@ export default function Folder() {
       folder: folderData.folder.name,
       flashcards: [{ front: values.front, back: values.back }],
     });
-    console.log(res);
     const updatedFolder = { ...folderData };
-    console.log(updatedFolder.flashcards.concat(res.flashcards));
     let updatedFlashcards;
     if (isNew)
       updatedFlashcards = updatedFolder.flashcards.concat(res.flashcards);

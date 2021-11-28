@@ -1,6 +1,8 @@
 import nextConnect from "next-connect";
 import passport from "../../lib/passport";
 
+import { checkAuthError, checkAuthorised } from "../../util/errors";
+
 const handler = nextConnect()
   .use(passport.initialize())
   .get((req, res) => {
@@ -8,16 +10,17 @@ const handler = nextConnect()
       "local-jwt",
       { session: false },
       function (err, user) {
-        if (err) {
-          return res.status(500).json({
-            message: err || "Something happend",
-            err: err.message || "Server error",
-          });
+        try {
+          checkAuthError(err);
+          checkAuthorised(user);
+
+          if (!user) {
+            return res.json(false);
+          }
+          return res.json({ username: user.username });
+        } catch (error) {
+          return res.status(error.status).json({ message: error.message });
         }
-        if (!user) {
-          return res.json(false);
-        }
-        return res.json({ username: user.username, folders: user.folders });
       }
     )(req, res);
   });

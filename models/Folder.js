@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import handleError from "../middleware/db";
+
 const folderSchema = new mongoose.Schema({
   owner: { type: mongoose.ObjectId, required: true },
   name: { type: String, required: true },
@@ -8,5 +10,11 @@ const folderSchema = new mongoose.Schema({
   isPrivate: { type: Boolean, default: true },
   description: { type: String, default: "" },
 });
+
+folderSchema.post("save", handleError);
+folderSchema.post("find", handleError);
+folderSchema.post("findOne", handleError);
+folderSchema.post("deleteOne", handleError);
+folderSchema.post("deleteMany", handleError);
 
 export default mongoose.models.Folder || mongoose.model("Folder", folderSchema);

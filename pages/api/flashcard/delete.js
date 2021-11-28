@@ -16,33 +16,36 @@ const handler = nextConnect()
       "local-jwt",
       { session: false },
       async function (err, user) {
-        checkAuthError(err);
-        checkAuthorised(res, user);
-        console.log("shouldnt reach");
-        checkReqBody(res, req.body, "/folder/delete");
+        try {
+          checkAuthError(err);
+          checkReqBody(req.body, "/flashcard/delete");
+          checkAuthorised(user);
 
-        const flashcard = await Flashcard.findOne({
-          _id: req.body.flashcardId,
-        });
+          const flashcard = await Flashcard.findOne({
+            _id: req.body.flashcardId,
+          });
 
-        if (!flashcard)
-          return res.status(404).json({ message: "Invalid flashcard" });
+          if (!flashcard)
+            return res.status(404).json({ message: "Invalid flashcard" });
 
-        const folder = await Folder.findOne({
-          _id: flashcard.folder,
-        });
+          const folder = await Folder.findOne({
+            _id: flashcard.folder,
+          });
 
-        if (!folder)
-          return res.status(404).json({ message: "Invalid foldername" });
+          if (!folder)
+            return res.status(404).json({ message: "Invalid foldername" });
 
-        if (!folder.owner.equals(user._id))
-          return res.status(401).json({ message: "Unauthorised" });
+          if (!folder.owner.equals(user._id))
+            return res.status(401).json({ message: "Unauthorised" });
 
-        await Flashcard.deleteOne({
-          folder: folder._id,
-          _id: req.body.flashcardId,
-        });
-        return res.status(200).json();
+          await Flashcard.deleteOne({
+            folder: folder._id,
+            _id: req.body.flashcardId,
+          });
+          return res.status(200).json();
+        } catch (error) {
+          return res.status(error.status).json({ message: error.message });
+        }
       }
     )(req, res);
   });
