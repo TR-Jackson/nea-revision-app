@@ -10,7 +10,7 @@ export default function NewFolderForm({ submitHandler, cancelHandler }) {
       initialValues={{ folderName: "", description: "" }}
       validationSchema={newFolderFormSchema}
     >
-      {({ errors, values, handleSubmit, isSubmitting, isValid }) => (
+      {({ errors, values, handleSubmit, isSubmitting, isValid, touched }) => (
         <Form className="flex flex-col space-y-2">
           <p className="block text-gray-700 text-sm font-bold mb-2">
             Folder Name
@@ -40,7 +40,8 @@ export default function NewFolderForm({ submitHandler, cancelHandler }) {
             <Button
               main
               onClick={() => handleSubmit(values)}
-              disabled={isSubmitting || !isValid}
+              disabled={!isValid || !touched}
+              submitted={isSubmitting}
             >
               Submit
             </Button>
