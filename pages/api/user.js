@@ -19,7 +19,8 @@ const handler = nextConnect()
           }
           return res.json({ username: user.username });
         } catch (error) {
-          return res.status(error.status).json({ message: error.message });
+          if (error.status === 401) res.json(false);
+          else return res.status(error.status).json({ message: error.message });
         }
       }
     )(req, res);

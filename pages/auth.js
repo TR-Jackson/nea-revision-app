@@ -25,7 +25,7 @@ export default function Auth() {
         password: password,
       })
       .then((res) => {
-        if (!res.success) {
+        if (!!res.username) {
           setError(res.message);
           setIsLoading(false);
         } else {
