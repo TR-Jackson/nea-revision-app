@@ -14,9 +14,6 @@ const handler = nextConnect()
           checkAuthError(err);
           checkAuthorised(user);
 
-          if (!user) {
-            return res.json(false);
-          }
           return res.json({ username: user.username });
         } catch (error) {
           if (error.status === 401) res.json(false);

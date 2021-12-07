@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 export default function Button({
   danger = false,
   main = false,
@@ -7,9 +5,6 @@ export default function Button({
   onClick,
   disabled = false,
 }) {
-  useEffect(() => {
-    console.log(disabled);
-  }, [disabled]);
   return (
     <button
       disabled={disabled}
