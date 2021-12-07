@@ -4,6 +4,7 @@ import {
   reqCreateFolderSchema,
   reqDeleteFolderSchema,
   reqUpdateFolderSchema,
+  reqReviseFolderSchema,
 } from "../lib/yupSchemas";
 
 export function checkReqBody(body, route) {
@@ -31,6 +32,10 @@ export function checkReqBody(body, route) {
 
     case "/folder/update":
       if (!reqUpdateFolderSchema.isValidSync(body)) error = true;
+      break;
+
+    case "/folder/revise":
+      if (!reqReviseFolderSchema.isValidSync(body)) error = true;
       break;
 
     default:

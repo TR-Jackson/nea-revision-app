@@ -44,7 +44,8 @@ export default function Folder() {
       .catch((err) => console.log(err));
   };
 
-  const saveFlashcardHandler = async (isNew, values) => {
+  const saveFlashcardHandler = async (isNew, values, resetForm) => {
+    console.log(values);
     setIsLoading(true);
     const res = await axios.post("/folder/update", {
       folder: folderData.folder.name,
@@ -57,6 +58,7 @@ export default function Folder() {
     updatedFolder.flashcards = updatedFlashcards;
     mutate(updatedFolder, false);
     setIsLoading(false);
+    resetForm();
   };
 
   return folderData ? (
@@ -99,9 +101,11 @@ export default function Folder() {
             <Formik
               initialValues={{ front: "", back: " " }}
               validationSchema={flashcardFormSchema}
-              onSubmit={(values) => saveFlashcardHandler(true, values)}
+              onSubmit={(values, { resetForm }) =>
+                saveFlashcardHandler(true, values, resetForm)
+              }
             >
-              {({ handleSubmit, errors, values }) => (
+              {({ handleSubmit, errors, values, resetForm }) => (
                 <Form className="w-full flex justify-between items-center content-center font-semibold mx-10">
                   <p className="text-xl">Add a new card</p>
                   <div>
