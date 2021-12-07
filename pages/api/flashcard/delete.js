@@ -3,6 +3,7 @@ import passport from "../../../lib/passport";
 
 import Flashcard from "../../../models/Flashcard";
 import Folder from "../../../models/Folder";
+import ReviseSession from "../../../models/ReviseSession";
 import {
   checkAuthError,
   checkAuthorised,
@@ -38,12 +39,23 @@ const handler = nextConnect()
           if (!folder.owner.equals(user._id))
             return res.status(401).json({ message: "Unauthorised" });
 
+          const reviseSession = await ReviseSession.findOne({
+            folder: folder._id,
+          });
+
+          reviseSession.toReview = reviseSession.toReview.filter(
+            (id) => !flashcard._id.equals(id)
+          );
+          console.log(reviseSession.toReview);
+          await reviseSession.save();
+
           await Flashcard.deleteOne({
             folder: folder._id,
             _id: req.body.flashcardId,
           });
           return res.status(200).json();
         } catch (error) {
+          console.log(error);
           return res.status(error.status).json({ message: error.message });
         }
       }
