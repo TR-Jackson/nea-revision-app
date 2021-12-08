@@ -25,13 +25,11 @@ const handler = nextConnect()
           const flashcard = await Flashcard.findOne({
             _id: req.body.flashcardId,
           });
-
           if (!flashcard) throw { message: "Invalid flashcard", status: 400 };
 
           const folder = await Folder.findOne({
             _id: flashcard.folder,
           });
-
           if (!folder) throw { message: "Invalid foldername", status: 400 };
 
           if (!folder.owner.equals(user._id))
@@ -46,10 +44,16 @@ const handler = nextConnect()
           );
           await reviseSession.save();
 
+          const updatedBoxStatus = [...folder.boxStatus];
+          updatedBoxStatus[flashcard.box]--;
+          folder.boxStatus = updatedBoxStatus;
+          await folder.save();
+
           await Flashcard.deleteOne({
             folder: folder._id,
             _id: req.body.flashcardId,
           });
+
           return res.status(200).json({ success: true });
         } catch (error) {
           console.log(error);

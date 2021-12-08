@@ -3,6 +3,7 @@ import passport from "../../../lib/passport";
 
 import Flashcard from "../../../models/Flashcard";
 import Folder from "../../../models/Folder";
+import ReviseSession from "../../../models/ReviseSession";
 import {
   checkAuthError,
   checkAuthorised,
@@ -31,11 +32,20 @@ const handler = nextConnect()
             _id: flashcard.folder,
           });
 
+          const reviseSession = await ReviseSession.findOne({
+            folder: folder._id,
+          });
+
+          reviseSession.toReview = reviseSession.toReview.filter(
+            (id) => !id.equals(flashcard._id)
+          );
+          await reviseSession.save();
+
+          const updatedBoxStatus = [...folder.boxStatus];
           if (req.body.correct) {
             flashcard.nextReview = new Date(
-              (flashcard.box + 1) ** 2 * 86400000
+              Date.now() + (flashcard.box + 1) ** 2 * 86400000
             );
-            const updatedBoxStatus = [...folder.boxStatus];
             if (flashcard.box < 5) {
               updatedBoxStatus[flashcard.box]--;
               updatedBoxStatus[flashcard.box + 1]++;
@@ -44,7 +54,7 @@ const handler = nextConnect()
             flashcard.notStudied = false;
           } else {
             flashcard.nextReview = new Date(
-              (flashcard.box - 1) ** 2 * 86400000
+              Date.now() + (flashcard.box - 1) ** 2 * 86400000
             );
             if (flashcard.box > 0) {
               updatedBoxStatus[flashcard.box]--;
@@ -53,8 +63,10 @@ const handler = nextConnect()
             }
             flashcard.notStudied = false;
           }
-          console.log(folder);
-          console.log(flashcard);
+          folder.boxStatus = updatedBoxStatus;
+
+          await folder.save();
+          await flashcard.save();
           return res.json(true);
         } catch (error) {
           console.log(error);

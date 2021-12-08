@@ -30,7 +30,8 @@ const handler = nextConnect()
           const boxStatus = [...folder.boxStatus];
           const newCards = [];
 
-          req.body.flashcards.forEach(async (card) => {
+          for (const i in req.body.flashcards) {
+            const card = req.body.flashcards[i];
             if (card?._id) {
               const flashcard = await Flashcard.findOne({
                 _id: card._id,
@@ -41,9 +42,10 @@ const handler = nextConnect()
               flashcard.front = card.front;
               flashcard.back = card.back;
               flashcard.box = req.body.refresh ? 0 : flashcard.box;
-              flashcard.notStudied = card.refresh || false;
-              flashcard.nextReview =
-                card.refresh || false ? new Date(0) : flashcard.nextReview;
+              flashcard.notStudied = card.refresh;
+              flashcard.nextReview = card.refresh
+                ? new Date(0)
+                : flashcard.nextReview;
 
               await flashcard.save();
               boxStatus[box] = boxStatus[box] - 1;
@@ -60,8 +62,7 @@ const handler = nextConnect()
               newCards.push(inserted);
               boxStatus[0] = boxStatus[0] + 1;
             }
-          });
-
+          }
           folder.boxStatus = boxStatus;
           await folder.save();
           return res.json({ flashcards: newCards });
