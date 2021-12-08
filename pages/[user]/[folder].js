@@ -37,7 +37,7 @@ export default function Folder() {
       false
     );
     axios
-      .post("/folder/delete", { folderName: folderName })
+      .post("/folder/delete", { folder: folderName })
       .then((res) => {
         Router.push("/");
       })

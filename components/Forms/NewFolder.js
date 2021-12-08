@@ -36,15 +36,16 @@ export default function NewFolderForm({ submitHandler, cancelHandler }) {
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           />
           <ErrorMessage name="description" component="div" />
-          <div className="bg-gray-50 px-4 py-3 sm:space-y-2 sm:px-6 sm:flex sm:flex-row-reverse">
-            <Button
-              main
-              onClick={() => handleSubmit(values)}
-              disabled={!isValid || !touched}
-              submitted={isSubmitting}
-            >
-              Submit
-            </Button>
+          <div className="bg-gray-50 px-4 py-3 sm:space-y-2 sm:px-6 flex-row-reverse flex place-content-end">
+            <div className="self-end">
+              <Button
+                main
+                onClick={() => handleSubmit(values)}
+                disabled={isSubmitting || !isValid}
+              >
+                Submit
+              </Button>
+            </div>
             <Button onClick={cancelHandler}>Cancel</Button>
           </div>
         </Form>

@@ -1,22 +1,11 @@
-import { useState, useEffect } from "react";
-
 export default function Button({
   danger = false,
   main = false,
   children,
   onClick,
   disabled = false,
-  submitted,
 }) {
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-
-  useEffect(() => {
-    setHasSubmitted(submitted || hasSubmitted);
-  }, [submitted, hasSubmitted]);
-
-  return hasSubmitted ? (
-    <div className="spinner" />
-  ) : (
+  return (
     <button
       disabled={disabled}
       type="button"

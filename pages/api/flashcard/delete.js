@@ -25,19 +25,15 @@ const handler = nextConnect()
           const flashcard = await Flashcard.findOne({
             _id: req.body.flashcardId,
           });
-
-          if (!flashcard)
-            return res.status(404).json({ message: "Invalid flashcard" });
+          if (!flashcard) throw { message: "Invalid flashcard", status: 400 };
 
           const folder = await Folder.findOne({
             _id: flashcard.folder,
           });
-
-          if (!folder)
-            return res.status(404).json({ message: "Invalid foldername" });
+          if (!folder) throw { message: "Invalid foldername", status: 400 };
 
           if (!folder.owner.equals(user._id))
-            return res.status(401).json({ message: "Unauthorised" });
+            throw { message: "Unauthorised", status: 401 };
 
           const reviseSession = await ReviseSession.findOne({
             folder: folder._id,
@@ -46,14 +42,19 @@ const handler = nextConnect()
           reviseSession.toReview = reviseSession.toReview.filter(
             (id) => !flashcard._id.equals(id)
           );
-          console.log(reviseSession.toReview);
           await reviseSession.save();
+
+          const updatedBoxStatus = [...folder.boxStatus];
+          updatedBoxStatus[flashcard.box]--;
+          folder.boxStatus = updatedBoxStatus;
+          await folder.save();
 
           await Flashcard.deleteOne({
             folder: folder._id,
             _id: req.body.flashcardId,
           });
-          return res.status(200).json();
+
+          return res.status(200).json({ success: true });
         } catch (error) {
           console.log(error);
           return res.status(error.status).json({ message: error.message });
