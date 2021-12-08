@@ -73,8 +73,6 @@ const handler = nextConnect()
           await reviseSession.save();
           return res.json({ flashcards: pool });
         } catch (error) {
-          if (!error.status) console.log(error);
-          console.log(error);
           return res.status(error.status).json({ message: error.message });
         }
       }
