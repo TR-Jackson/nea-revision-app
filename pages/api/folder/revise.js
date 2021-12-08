@@ -31,6 +31,7 @@ const handler = nextConnect()
 
           let toAdd = 30;
           let pool = [];
+          let idPool = [...reviseSession.toReview];
           reviseSession.toReview.forEach(async (id) => {
             const card = await Flashcard.findOne(
               { _id: id },
@@ -42,8 +43,7 @@ const handler = nextConnect()
           const reviewed = await Flashcard.find(
             {
               folder: folder._id,
-              _id: { $nin: pool },
-              nextReview: { $lte: Date.now() },
+              _id: { $nin: idPool },
             },
             { folder: 0, owner: 0, nextReview: 0 }
           )
@@ -51,13 +51,14 @@ const handler = nextConnect()
             .lean();
           pool = pool.concat(reviewed);
 
+          idPool = [...idPool, ...pool.map((card) => card._id)];
           toAdd = 30 - pool.length;
 
           const notReviewed = await Flashcard.find(
             {
               folder: folder._id,
               notStudied: true,
-              _id: { $nin: pool },
+              _id: { $nin: idPool },
             },
             { folder: 0, owner: 0, nextReview: 0 }
           )
