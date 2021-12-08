@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import { useState, useEffect } from "react";
-
-=======
->>>>>>> 2c96c6cd2efb106317d29ea285769452e91e3589
 export default function Button({
   danger = false,
   main = false,
