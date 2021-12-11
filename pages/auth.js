@@ -11,7 +11,7 @@ export default function Auth () {
   const [isLogin, setIsLogin] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
-  const { user, mutateUser } = useUser({
+  const { mutateUser } = useUser({
     redirectTo: '/',
     redirectIfFound: true
   })

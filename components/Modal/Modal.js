@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   ExclamationIcon,
@@ -6,8 +6,9 @@ import {
   FolderRemoveIcon,
   PencilIcon
 } from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
 
-export default function Example ({
+export default function Modal ({
   children,
   show,
   onClose,
@@ -154,6 +155,20 @@ export default function Example ({
       </Dialog>
     </Transition.Root>
   )
+}
+
+Modal.propTypes = {
+  children: PropTypes.element,
+  show: PropTypes.bool,
+  onClose: PropTypes.func,
+  danger: PropTypes.bool,
+  folderAdd: PropTypes.bool,
+  folderRemove: PropTypes.bool,
+  edit: PropTypes.bool,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  onSubmit: PropTypes.func,
+  buttons: PropTypes.bool
 }
 
 // https://tailwindui.com/components/application-ui/overlays/modals

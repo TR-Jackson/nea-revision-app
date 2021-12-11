@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Router from 'next/router'
 import { FolderOpenIcon, BookOpenIcon } from '@heroicons/react/outline'
 import axios from '../lib/axiosConfig'
@@ -10,7 +10,7 @@ import Modal from '../components/Modal/Modal'
 import Button from '../components/UI/Button/Button'
 
 export default function Home () {
-  const { user, mutateUser } = useUser({ redirectTo: '/auth' })
+  const { user } = useUser({ redirectTo: '/auth' })
   const [createFolder, setCreateFolder] = useState(false)
   const { folders, mutateFolders } = useFolders()
 

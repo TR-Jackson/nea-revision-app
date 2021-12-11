@@ -1,4 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import PropTypes from 'prop-types'
 
 import Button from '../../components/UI/Button/Button'
 import { newFolderFormSchema } from '../../lib/yupSchemas'
@@ -52,4 +53,9 @@ export default function NewFolderForm ({ submitHandler, cancelHandler }) {
       )}
     </Formik>
   )
+}
+
+NewFolderForm.propTypes = {
+  submitHandler: PropTypes.func,
+  cancelHandler: PropTypes.func
 }

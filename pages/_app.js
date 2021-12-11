@@ -1,6 +1,7 @@
-import '../styles/globals.css'
+import PropTypes from 'prop-types'
 
 import Navbar from '../components/Navbar'
+import '../styles/globals.css'
 
 function MyApp ({ Component, pageProps }) {
   return (
@@ -12,3 +13,8 @@ function MyApp ({ Component, pageProps }) {
 }
 
 export default MyApp
+
+MyApp.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object.isRequired
+}

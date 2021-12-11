@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 export default function Button ({
   danger = false,
   main = false,
@@ -24,4 +26,12 @@ export default function Button ({
       {children}
     </button>
   )
+}
+
+Button.propTypes = {
+  danger: PropTypes.bool,
+  main: PropTypes.bool,
+  disabled: PropTypes.bool,
+  children: PropTypes.string,
+  onClick: PropTypes.func
 }

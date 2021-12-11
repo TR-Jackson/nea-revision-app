@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 export default function NavbarItem ({ text, href, onClick }) {
   if (href) {
@@ -25,4 +26,10 @@ export default function NavbarItem ({ text, href, onClick }) {
       {text}
     </div>
   )
+}
+
+NavbarItem.propTypes = {
+  text: PropTypes.string,
+  href: PropTypes.string,
+  onClick: PropTypes.func
 }

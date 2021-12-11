@@ -46,17 +46,13 @@ export function checkReqBody (body, route) {
     default:
       throw { message: 'Server Error - Should not be reached', status: 500 }
   }
-  if (error) {
-    throw { message: 'Bad request', status: 400 }
-  } else return
+  if (error) throw { message: 'Bad request', status: 400 }
 }
 
 export function checkAuthError (error) {
   if (error) throw { message: error || 'Error authenticating', status: 500 }
-  else return
 }
 
 export function checkAuthorised (user) {
   if (!user) throw { message: 'Unauthorised', status: 401 }
-  else return
 }

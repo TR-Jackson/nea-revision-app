@@ -1,4 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import PropTypes from 'prop-types'
 
 import Button from '../../components/UI/Button/Button'
 import { authFormSchema } from '../../lib/yupSchemas'
@@ -54,4 +55,8 @@ export default function AuthForm ({ submitHandler }) {
       )}
     </Formik>
   )
+}
+
+AuthForm.propTypes = {
+  submitHandler: PropTypes.func
 }
