@@ -1,13 +1,13 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 
-import Button from "../../components/UI/Button/Button";
-import { newFolderFormSchema } from "../../lib/yupSchemas";
+import Button from '../../components/UI/Button/Button'
+import { newFolderFormSchema } from '../../lib/yupSchemas'
 
-export default function NewFolderForm({ submitHandler, cancelHandler }) {
+export default function NewFolderForm ({ submitHandler, cancelHandler }) {
   return (
     <Formik
       onSubmit={(values) => submitHandler(values)}
-      initialValues={{ folderName: "", description: "" }}
+      initialValues={{ folderName: '', description: '' }}
       validationSchema={newFolderFormSchema}
     >
       {({ errors, values, handleSubmit, isSubmitting, isValid, touched }) => (
@@ -18,7 +18,7 @@ export default function NewFolderForm({ submitHandler, cancelHandler }) {
           <Field
             name="folderName"
             className={`shadow appearance-none border ${
-              errors.folderName ? "border-red-500" : "border-blue-chill-500"
+              errors.folderName ? 'border-red-500' : 'border-blue-chill-500'
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           />
           <ErrorMessage
@@ -32,7 +32,7 @@ export default function NewFolderForm({ submitHandler, cancelHandler }) {
             name="description"
             type="textarea"
             className={`shadow appearance-none border ${
-              errors.description ? "border-red-500" : "border-blue-chill-500"
+              errors.description ? 'border-red-500' : 'border-blue-chill-500'
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           />
           <ErrorMessage name="description" component="div" />
@@ -51,5 +51,5 @@ export default function NewFolderForm({ submitHandler, cancelHandler }) {
         </Form>
       )}
     </Formik>
-  );
+  )
 }

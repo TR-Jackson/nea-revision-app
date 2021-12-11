@@ -1,66 +1,65 @@
-import nextConnect from "next-connect";
-import passport from "../../../lib/passport";
+import nextConnect from 'next-connect'
+import passport from '../../../lib/passport'
 
-import Flashcard from "../../../models/Flashcard";
-import Folder from "../../../models/Folder";
-import ReviseSession from "../../../models/ReviseSession";
+import Flashcard from '../../../models/Flashcard'
+import Folder from '../../../models/Folder'
+import ReviseSession from '../../../models/ReviseSession'
 import {
   checkAuthError,
   checkAuthorised,
-  checkReqBody,
-} from "../../../util/errors";
+  checkReqBody
+} from '../../../util/errors'
 
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
     passport.authenticate(
-      "local-jwt",
+      'local-jwt',
       { session: false },
       async function (err, user) {
         try {
-          checkAuthError(err);
-          checkReqBody(req.body, "/flashcard/delete");
-          checkAuthorised(user);
+          checkAuthError(err)
+          checkReqBody(req.body, '/flashcard/delete')
+          checkAuthorised(user)
 
           const flashcard = await Flashcard.findOne({
-            _id: req.body.flashcardId,
-          });
-          if (!flashcard) throw { message: "Invalid flashcard", status: 400 };
+            _id: req.body.flashcardId
+          })
+          if (!flashcard) throw { message: 'Invalid flashcard', status: 400 }
 
           const folder = await Folder.findOne({
-            _id: flashcard.folder,
-          });
-          if (!folder) throw { message: "Invalid foldername", status: 400 };
+            _id: flashcard.folder
+          })
+          if (!folder) throw { message: 'Invalid foldername', status: 400 }
 
-          if (!folder.owner.equals(user._id))
-            throw { message: "Unauthorised", status: 401 };
+          if (!folder.owner.equals(user._id)) { throw { message: 'Unauthorised', status: 401 } }
 
           const reviseSession = await ReviseSession.findOne({
-            folder: folder._id,
-          });
+            folder: folder._id
+          })
 
           reviseSession.toReview = reviseSession.toReview.filter(
             (id) => !flashcard._id.equals(id)
-          );
-          await reviseSession.save();
+          )
+          await reviseSession.save()
 
-          const updatedBoxStatus = [...folder.boxStatus];
-          updatedBoxStatus[flashcard.box]--;
-          folder.boxStatus = updatedBoxStatus;
-          await folder.save();
+          const updatedBoxStatus = [...folder.boxStatus]
+          updatedBoxStatus[flashcard.box]--
+          folder.boxStatus = updatedBoxStatus
+          await folder.save()
 
           await Flashcard.deleteOne({
             folder: folder._id,
-            _id: req.body.flashcardId,
-          });
+            _id: req.body.flashcardId
+          })
 
-          return res.status(200).json({ success: true });
+          return res.status(200).json({ success: true })
         } catch (error) {
-          console.log(error);
-          return res.status(error.status).json({ message: error.message });
+          console.log(error)
+          return res.status(error.status).json({ message: error.message })
         }
       }
-    )(req, res);
-  });
+    )(req, res)
+  })
 
-export default handler;
+export default handler
