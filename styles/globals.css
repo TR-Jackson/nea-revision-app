@@ -6,14 +6,14 @@
   .loader,
   .loader:before,
   .loader:after {
-    background: #00a0a4;
+    background: #0369a1;
     -webkit-animation: load1 1s infinite ease-in-out;
     animation: load1 1s infinite ease-in-out;
     width: 1em;
     height: 4em;
   }
   .loader {
-    color: #00a0a4;
+    color: #0369a1;
     text-indent: -9999em;
     margin: 88px auto;
     position: relative;
@@ -28,7 +28,7 @@
   .loader:after {
     position: absolute;
     top: 0;
-    content: "";
+    content: '';
   }
   .loader:before {
     left: -1.5em;
@@ -63,35 +63,19 @@
     }
   }
 
-  .spinner {
+    .spinner {
     font-size: 10px;
     margin: 50px auto;
     text-indent: -9999em;
     width: 11em;
     height: 11em;
     border-radius: 50%;
-    background: #00a0a4;
-    background: -moz-linear-gradient(
-      left,
-      #00a0a4 10%,
-      rgba(0, 160, 164, 0) 42%
-    );
-    background: -webkit-linear-gradient(
-      left,
-      #00a0a4 10%,
-      rgba(0, 160, 164, 0) 42%
-    );
-    background: -o-linear-gradient(left, #00a0a4 10%, rgba(0, 160, 164, 0) 42%);
-    background: -ms-linear-gradient(
-      left,
-      #00a0a4 10%,
-      rgba(0, 160, 164, 0) 42%
-    );
-    background: linear-gradient(
-      to right,
-      #00a0a4 10%,
-      rgba(0, 160, 164, 0) 42%
-    );
+    background: #0369a1;
+    background: -moz-linear-gradient(left, #0369a1 10%, rgba(3,105,161, 0) 42%);
+    background: -webkit-linear-gradient(left, #0369a1 10%, rgba(3,105,161, 0) 42%);
+    background: -o-linear-gradient(left, #0369a1 10%, rgba(3,105,161, 0) 42%);
+    background: -ms-linear-gradient(left, #0369a1 10%, rgba(3,105,161, 0) 42%);
+    background: linear-gradient(to right, #0369a1 10%, rgba(3,105,161, 0) 42%);
     position: relative;
     -webkit-animation: load3 1.4s infinite linear;
     animation: load3 1.4s infinite linear;
@@ -102,19 +86,19 @@
   .spinner:before {
     width: 50%;
     height: 50%;
-    background: #00a0a4;
+    background: #0369a1;
     border-radius: 100% 0 0 0;
     position: absolute;
     top: 0;
     left: 0;
-    content: "";
+    content: '';
   }
   .spinner:after {
-    background: #ffffff;
+    background: #0369a1;
     width: 75%;
     height: 75%;
     border-radius: 50%;
-    content: "";
+    content: '';
     margin: auto;
     position: absolute;
     top: 0;

@@ -41,7 +41,7 @@ export default function Home () {
                 folders.map((folder, i) => (
                   <div
                     key={i}
-                    className="bg-blue-chill-400 sm:min-w-full p-2 my-6 flex m-auto shadow-md rounded-md mb-0 hover:bg-blue-chill-300 h-auto lg:w-3/5 py-4 px-3"
+                    className="bg-sky-400 sm:min-w-full p-2 my-6 flex m-auto shadow-md rounded-md mb-0 hover:bg-sky-300 h-auto lg:w-3/5 py-4 px-3"
                   >
                     <div className="ml-1">
                       <FolderOpenIcon
