@@ -1,21 +1,21 @@
-import jsonwebtoken from "jsonwebtoken";
+import jsonwebtoken from 'jsonwebtoken'
 
 export const issueJWT = (user) => {
-  const _id = user._id;
+  const _id = user._id
 
-  const expiresIn = "86400000";
+  const expiresIn = '86400000'
 
   const payload = {
     sub: _id,
-    iat: Date.now(),
-  };
+    iat: Date.now()
+  }
 
   const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, {
-    expiresIn: expiresIn,
-  });
+    expiresIn: expiresIn
+  })
 
   return {
-    token: "Bearer " + signedToken,
-    expires: expiresIn,
-  };
-};
+    token: 'Bearer ' + signedToken,
+    expires: expiresIn
+  }
+}

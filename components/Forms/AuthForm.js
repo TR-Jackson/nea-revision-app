@@ -1,15 +1,16 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import PropTypes from 'prop-types'
 
-import Button from "../../components/UI/Button/Button";
-import { authFormSchema } from "../../lib/yupSchemas";
+import Button from '../../components/UI/Button/Button'
+import { authFormSchema } from '../../lib/yupSchemas'
 
-export default function AuthForm({ submitHandler }) {
+export default function AuthForm ({ submitHandler }) {
   return (
     <Formik
       onSubmit={(values) => {
-        submitHandler(values);
+        submitHandler(values)
       }}
-      initialValues={{ username: "", password: "" }}
+      initialValues={{ username: '', password: '' }}
       validationSchema={authFormSchema}
     >
       {({ errors, values, handleSubmit }) => (
@@ -21,7 +22,7 @@ export default function AuthForm({ submitHandler }) {
             <Field
               name="username"
               className={`shadow appearance-none border ${
-                errors.username ? "border-red-500" : "border-blue-chill-500"
+                errors.username ? 'border-red-500' : 'border-sky-500'
               } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
             />
             <ErrorMessage
@@ -37,7 +38,7 @@ export default function AuthForm({ submitHandler }) {
               name="password"
               type="password"
               className={`shadow appearance-none border ${
-                errors.password ? "border-red-500" : "border-blue-chill-500"
+                errors.password ? 'border-red-500' : 'border-sky-500'
               } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
             />
             <ErrorMessage
@@ -53,5 +54,9 @@ export default function AuthForm({ submitHandler }) {
         </Form>
       )}
     </Formik>
-  );
+  )
+}
+
+AuthForm.propTypes = {
+  submitHandler: PropTypes.func
 }

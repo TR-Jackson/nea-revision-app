@@ -1,26 +1,26 @@
-import nextConnect from "next-connect";
-import passport from "../../lib/passport";
+import nextConnect from 'next-connect'
+import passport from '../../lib/passport'
 
-import { checkAuthError, checkAuthorised } from "../../util/errors";
+import { checkAuthError, checkAuthorised } from '../../util/errors'
 
 const handler = nextConnect()
   .use(passport.initialize())
   .get((req, res) => {
     passport.authenticate(
-      "local-jwt",
+      'local-jwt',
       { session: false },
       function (err, user) {
         try {
-          checkAuthError(err);
-          checkAuthorised(user);
+          checkAuthError(err)
+          checkAuthorised(user)
 
-          return res.json({ username: user.username });
+          return res.json({ username: user.username })
         } catch (error) {
-          if (error.status === 401) res.json(false);
-          else return res.status(error.status).json({ message: error.message });
+          if (error.status === 401) res.json(false)
+          else return res.status(error.status).json({ message: error.message })
         }
       }
-    )(req, res);
-  });
+    )(req, res)
+  })
 
-export default handler;
+export default handler

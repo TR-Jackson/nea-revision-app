@@ -1,13 +1,14 @@
-import { Fragment, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useRef } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 import {
   ExclamationIcon,
   FolderAddIcon,
   FolderRemoveIcon,
-  PencilIcon,
-} from "@heroicons/react/outline";
+  PencilIcon
+} from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
 
-export default function Example({
+export default function Modal ({
   children,
   show,
   onClose,
@@ -18,9 +19,9 @@ export default function Example({
   title,
   description,
   onSubmit,
-  buttons,
+  buttons
 }) {
-  const cancelButtonRef = useRef(null);
+  const cancelButtonRef = useRef(null)
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -65,38 +66,46 @@ export default function Example({
                 <div className="sm:flex sm:items-start">
                   <div
                     className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full ${
-                      danger ? "bg-red-100" : "bg-blue-chill-100"
+                      danger ? 'bg-red-100' : 'bg-sky-100'
                     } sm:mx-0 sm:h-10 sm:w-10`}
                   >
-                    {danger ? (
-                      <ExclamationIcon
-                        className={`h-6 w-6 ${
-                          danger ? "text-red-600" : "text-blue-chill-600"
-                        }`}
-                        aria-hidden="true"
-                      />
-                    ) : edit ? (
-                      <PencilIcon
-                        className={`h-6 w-6 ${
-                          danger ? "text-red-600" : "text-blue-chill-600"
-                        }`}
-                        aria-hidden="true"
-                      />
-                    ) : folderAdd ? (
-                      <FolderAddIcon
-                        className={`h-6 w-6 ${
-                          danger ? "text-red-600" : "text-blue-chill-600"
-                        }`}
-                        aria-hidden="true"
-                      />
-                    ) : folderRemove ? (
-                      <FolderRemoveIcon
-                        aria-hidden="true"
-                        className={`h-6 w-6 ${
-                          danger ? "text-red-600" : "text-blue-chill-600"
-                        }`}
-                      />
-                    ) : null}
+                    {danger
+                      ? (
+                        <ExclamationIcon
+                          className={`h-6 w-6 ${
+                            danger ? 'text-red-600' : 'text-sky-600'
+                          }`}
+                          aria-hidden="true"
+                        />
+                      )
+                      : edit
+                        ? (
+                          <PencilIcon
+                            className={`h-6 w-6 ${
+                              danger ? 'text-red-600' : 'text-sky-600'
+                            }`}
+                            aria-hidden="true"
+                          />
+                        )
+                        : folderAdd
+                          ? (
+                            <FolderAddIcon
+                              className={`h-6 w-6 ${
+                                danger ? 'text-red-600' : 'text-sky-600'
+                              }`}
+                              aria-hidden="true"
+                            />
+                          )
+                          : folderRemove
+                            ? (
+                              <FolderRemoveIcon
+                                aria-hidden="true"
+                                className={`h-6 w-6 ${
+                                  danger ? 'text-red-600' : 'text-sky-600'
+                                }`}
+                              />
+                            )
+                            : null}
                   </div>
                   <div className="flex-grow mt-3 text-center sm:mr-12 sm:mt-0 sm:ml-4 sm:text-left">
                     <Dialog.Title
@@ -106,11 +115,13 @@ export default function Example({
                       {title}
                     </Dialog.Title>
                     <div className="mt-2">
-                      {description ? (
-                        <p className="text-sm text-gray-500">{description}</p>
-                      ) : (
-                        children
-                      )}
+                      {description
+                        ? (
+                          <p className="text-sm text-gray-500">{description}</p>
+                        )
+                        : (
+                          children
+                        )}
                     </div>
                   </div>
                 </div>
@@ -121,8 +132,8 @@ export default function Example({
                     type="button"
                     className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white ${
                       danger
-                        ? "hover:bg-red-700 focus:ring-red-500 bg-red-600"
-                        : "hover:bg-blue-chill-700 focus:ring-blue-chill-500 bg-blue-chill-600"
+                        ? 'hover:bg-red-700 focus:ring-red-500 bg-red-600'
+                        : 'hover:bg-sky-700 focus:ring-sky-500 bg-sky-600'
                     } focus:outline-none focus:ring-2 focus:ring-offset-2  sm:ml-3 sm:w-auto sm:text-sm`}
                     onClick={onSubmit}
                   >
@@ -130,7 +141,7 @@ export default function Example({
                   </button>
                   <button
                     type="button"
-                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-chill-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={onClose}
                     ref={cancelButtonRef}
                   >
@@ -143,7 +154,21 @@ export default function Example({
         </div>
       </Dialog>
     </Transition.Root>
-  );
+  )
+}
+
+Modal.propTypes = {
+  children: PropTypes.element,
+  show: PropTypes.bool,
+  onClose: PropTypes.func,
+  danger: PropTypes.bool,
+  folderAdd: PropTypes.bool,
+  folderRemove: PropTypes.bool,
+  edit: PropTypes.bool,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  onSubmit: PropTypes.func,
+  buttons: PropTypes.bool
 }
 
 // https://tailwindui.com/components/application-ui/overlays/modals
