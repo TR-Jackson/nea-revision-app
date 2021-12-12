@@ -71,40 +71,40 @@ export default function Modal ({
                   >
                     {danger
                       ? (
-                      <ExclamationIcon
-                        className={`h-6 w-6 ${
-                          danger ? 'text-red-600' : 'text-blue-chill-600'
-                        }`}
-                        aria-hidden="true"
-                      />
-                        )
+                        <ExclamationIcon
+                          className={`h-6 w-6 ${
+                            danger ? 'text-red-600' : 'text-blue-chill-600'
+                          }`}
+                          aria-hidden="true"
+                        />
+                      )
                       : edit
                         ? (
-                      <PencilIcon
-                        className={`h-6 w-6 ${
-                          danger ? 'text-red-600' : 'text-blue-chill-600'
-                        }`}
-                        aria-hidden="true"
-                      />
-                          )
+                          <PencilIcon
+                            className={`h-6 w-6 ${
+                              danger ? 'text-red-600' : 'text-blue-chill-600'
+                            }`}
+                            aria-hidden="true"
+                          />
+                        )
                         : folderAdd
                           ? (
-                      <FolderAddIcon
-                        className={`h-6 w-6 ${
-                          danger ? 'text-red-600' : 'text-blue-chill-600'
-                        }`}
-                        aria-hidden="true"
-                      />
-                            )
+                            <FolderAddIcon
+                              className={`h-6 w-6 ${
+                                danger ? 'text-red-600' : 'text-blue-chill-600'
+                              }`}
+                              aria-hidden="true"
+                            />
+                          )
                           : folderRemove
                             ? (
-                      <FolderRemoveIcon
-                        aria-hidden="true"
-                        className={`h-6 w-6 ${
-                          danger ? 'text-red-600' : 'text-blue-chill-600'
-                        }`}
-                      />
-                              )
+                              <FolderRemoveIcon
+                                aria-hidden="true"
+                                className={`h-6 w-6 ${
+                                  danger ? 'text-red-600' : 'text-blue-chill-600'
+                                }`}
+                              />
+                            )
                             : null}
                   </div>
                   <div className="flex-grow mt-3 text-center sm:mr-12 sm:mt-0 sm:ml-4 sm:text-left">
@@ -117,11 +117,11 @@ export default function Modal ({
                     <div className="mt-2">
                       {description
                         ? (
-                        <p className="text-sm text-gray-500">{description}</p>
-                          )
+                          <p className="text-sm text-gray-500">{description}</p>
+                        )
                         : (
-                            children
-                          )}
+                          children
+                        )}
                     </div>
                   </div>
                 </div>

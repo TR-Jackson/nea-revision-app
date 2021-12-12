@@ -63,12 +63,11 @@ const handler = nextConnect()
             flashcard.notStudied = false
           }
           folder.boxStatus = updatedBoxStatus
-
+          console.log('done')
           await folder.save()
           await flashcard.save()
-          return res.json(true)
+          return res.json({ success: true })
         } catch (error) {
-          console.log(error)
           return res.status(error.status).json({ message: error.message })
         }
       }

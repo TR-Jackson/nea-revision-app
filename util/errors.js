@@ -11,40 +11,40 @@ import {
 export function checkReqBody (body, route) {
   let error = false
   switch (route) {
-    case '/auth/login':
-      if (!reqAuthSchema.isValidSync(body)) error = true
-      break
+  case '/auth/login':
+    if (!reqAuthSchema.isValidSync(body)) error = true
+    break
 
-    case '/auth/register':
-      if (!reqAuthSchema.isValidSync(body)) error = true
-      break
+  case '/auth/register':
+    if (!reqAuthSchema.isValidSync(body)) error = true
+    break
 
-    case '/flashcard/delete':
-      if (!reqDeleteFlashcardSchema.isValidSync(body)) error = true
-      break
+  case '/flashcard/delete':
+    if (!reqDeleteFlashcardSchema.isValidSync(body)) error = true
+    break
 
-    case '/folder/create':
-      if (!reqCreateFolderSchema.isValidSync(body)) error = true
-      break
+  case '/folder/create':
+    if (!reqCreateFolderSchema.isValidSync(body)) error = true
+    break
 
-    case '/folder/delete':
-      if (!reqDeleteFolderSchema.isValidSync(body)) error = true
-      break
+  case '/folder/delete':
+    if (!reqDeleteFolderSchema.isValidSync(body)) error = true
+    break
 
-    case '/folder/update':
-      if (!reqUpdateFolderSchema.isValidSync(body)) error = true
-      break
+  case '/folder/update':
+    if (!reqUpdateFolderSchema.isValidSync(body)) error = true
+    break
 
-    case '/folder/revise':
-      if (!reqReviseFolderSchema.isValidSync(body)) error = true
-      break
+  case '/folder/revise':
+    if (!reqReviseFolderSchema.isValidSync(body)) error = true
+    break
 
-    case '/flashcard/response':
-      if (!reqResponseFlashcardSchema.isValidSync(body)) error = true
-      break
+  case '/flashcard/response':
+    if (!reqResponseFlashcardSchema.isValidSync(body)) error = true
+    break
 
-    default:
-      throw { message: 'Server Error - Should not be reached', status: 500 }
+  default:
+    throw { message: 'Server Error - Should not be reached', status: 500 }
   }
   if (error) throw { message: 'Bad request', status: 400 }
 }

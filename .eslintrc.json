@@ -21,6 +21,7 @@
     "rules": {
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "no-throw-literal": 0
+        "no-throw-literal": 0,
+        "indent": ["error", 2]
     }
 }
