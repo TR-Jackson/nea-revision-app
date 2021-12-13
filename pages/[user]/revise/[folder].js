@@ -2,7 +2,7 @@ import axios from '../../../lib/axiosConfig'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import Flashcard from '../../../components/Revise/Flashcard'
+import ReviseCard from '../../../components/Flashcard/ReviseCard'
 import useUser from '../../../hooks/useUser'
 import Button from '../../../components/UI/Button/Button'
 
@@ -48,7 +48,7 @@ export default function Revise () {
         : (
           <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
             <div className='font-bold text-3xl'>Revising {folder}</div>
-            <Flashcard
+            <ReviseCard
               next={nextCardHandler}
               front={flashcards[currCard].front}
               back={flashcards[currCard].back}

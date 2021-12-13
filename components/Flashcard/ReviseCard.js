@@ -4,11 +4,14 @@ import { useState } from 'react'
 
 import Button from '../UI/Button/Button'
 
-export default function Flashcard ({ front, back, _id, next }) {
+export default function ReviseCard ({ front, back, _id, next }) {
   const [revealed, setRevealed] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const responseHandler = async (correct) => {
+    setIsLoading(true)
     await axios.post('/flashcard/response', { flashcardId: _id, correct: correct })
+    setIsLoading(false)
     setRevealed(false)
     next()
   }
@@ -20,15 +23,15 @@ export default function Flashcard ({ front, back, _id, next }) {
       </div>
       {revealed
         ? <div>
-          <Button onClick={() => responseHandler(true)}>Correct</Button>
-          <Button onClick={() => responseHandler(false)}>Incorrect</Button>
+          <Button isLoading={isLoading} onClick={() => responseHandler(true)}>Correct</Button>
+          <Button isLoading={isLoading} onClick={() => responseHandler(false)}>Incorrect</Button>
         </div>
         : <Button onClick={() => setRevealed(true)}>Flip flashcard</Button>}
     </div>
   )
 }
 
-Flashcard.propTypes = {
+ReviseCard.propTypes = {
   front: PropTypes.string,
   back: PropTypes.string,
   _id: PropTypes.string,
