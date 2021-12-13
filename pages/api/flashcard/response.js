@@ -63,7 +63,6 @@ const handler = nextConnect()
             flashcard.notStudied = false
           }
           folder.boxStatus = updatedBoxStatus
-          console.log('done')
           await folder.save()
           await flashcard.save()
           return res.json({ success: true })

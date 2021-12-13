@@ -49,7 +49,7 @@ export default function Auth () {
       <AuthForm submitHandler={submitHandler} />
       <div className="w-full my-3">
         <Button onClick={() => setIsLogin(!isLogin)}>
-          Switch to {isLogin ? 'sign up' : 'log in'}
+          {`Switch to ${isLogin ? 'sign up' : 'log in'}`}
         </Button>
       </div>
       {error && (

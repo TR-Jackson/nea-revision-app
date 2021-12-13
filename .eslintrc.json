@@ -23,5 +23,10 @@
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "no-throw-literal": 0,
         "indent": ["error", 2]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
