@@ -45,7 +45,6 @@ export default function Folder () {
   }
 
   const saveFlashcardHandler = async (isNew, values, resetForm) => {
-    console.log(values)
     setIsLoading(true)
     const res = await axios.post('/folder/update', {
       folder: folderData.folder.name,
@@ -82,8 +81,8 @@ export default function Folder () {
           {folderData.flashcards.map((card, i) => (
             <div key={i} className="flex my-6 text-lg">
               <div className="bg-sky-400 w-full py-11 px-10 grid grid-cols-2 gap-4 space-x-6 items-center rounded-l-lg divide-x divide-sky-600 mx-auto">
-                <p>{card.front}</p>
-                <p>{card.back}</p>
+                <p className='overflow-auto'>{card.front}</p>
+                <p className='overflow-auto'>{card.back}</p>
               </div>
               <div className="bg-sky-600 m-auto h-32 px-2 rounded-r-lg">
                 <div className="flex flex-col justify-evenly h-full">

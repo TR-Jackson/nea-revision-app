@@ -15,8 +15,8 @@ export default function Flashcard ({ front, back, _id, next }) {
 
   return (
     <div className='w-full flex flex-col items-center space-y-10 my-10'>
-      <div className='w-4/5 h-4/5 bg-gray-100 shadow-lg p-40'>
-        <div>{revealed ? back : front}</div>
+      <div className='w-4/5 h-4/5 bg-gray-50 shadow-lg p-40 border-2 border-black rounded-lg overflow-auto'>
+        <div className='text-4xl'>{revealed ? back : front}</div>
       </div>
       {revealed
         ? <div>
