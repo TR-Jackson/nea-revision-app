@@ -44,7 +44,12 @@ export default function Home () {
             {folders.length !== 0
               ? (
                 folders.map((folder, i) => (
-                  <Folder key={i} name={folder.name} description={folder.description} boxStatus={folder.boxStatus} openFolderHandler={openFolderHandler} />
+                  <Folder
+                    key={i}
+                    name={folder.name}
+                    description={folder.description}
+                    boxStatus={folder.boxStatus}
+                    openFolderHandler={openFolderHandler} />
                 ))
               )
               : (
@@ -52,7 +57,9 @@ export default function Home () {
               )}
           </div>
           <div>
-            <Button main onClick={() => setCreateFolder(true)}>
+            <Button
+              main
+              onClick={() => setCreateFolder(true)}>
               ADD FOLDER
             </Button>
           </div>

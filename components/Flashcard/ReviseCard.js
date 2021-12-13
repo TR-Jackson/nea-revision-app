@@ -23,8 +23,12 @@ export default function ReviseCard ({ front, back, _id, next }) {
       </div>
       {revealed
         ? <div>
-          <Button isLoading={isLoading} onClick={() => responseHandler(true)}>Correct</Button>
-          <Button isLoading={isLoading} onClick={() => responseHandler(false)}>Incorrect</Button>
+          <Button
+            isLoading={isLoading}
+            onClick={() => responseHandler(true)}>Correct</Button>
+          <Button
+            isLoading={isLoading}
+            onClick={() => responseHandler(false)}>Incorrect</Button>
         </div>
         : <Button onClick={() => setRevealed(true)}>Flip flashcard</Button>}
     </div>

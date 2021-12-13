@@ -47,7 +47,9 @@ export default function AuthForm ({ submitHandler }) {
             />
           </div>
           <div>
-            <Button main onClick={() => handleSubmit(values)}>
+            <Button
+              main
+              onClick={() => handleSubmit(values)}>
               Submit
             </Button>
           </div>

@@ -18,10 +18,14 @@ export default function Navbar () {
       <div className="bg-sky-500 w-full h-12">
         <div className="flex w-2/3 mx-auto flex-row p-2">
           <div className="flex flex-row justify-start space-x-2 flex-grow">
-            <NavbarItem href="/" text="Home" />
+            <NavbarItem
+              href="/"
+              text="Home" />
           </div>
           <div className="flex flex-row justify-end space-x-2 mr-2 flex-grow-0">
-            <NavbarItem onClick={logoutHandler} text="Log Out" />
+            <NavbarItem
+              onClick={logoutHandler}
+              text="Log Out" />
           </div>
         </div>
       </div>

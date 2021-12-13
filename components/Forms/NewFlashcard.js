@@ -47,7 +47,10 @@ export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
             />
           </div>
           <div className="w-auto self-center">
-            <Button main onClick={() => handleSubmit(values)} isLoading={isLoading}>
+            <Button
+              main
+              onClick={() => handleSubmit(values)}
+              isLoading={isLoading}>
                       Submit
             </Button>
           </div>

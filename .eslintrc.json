@@ -22,7 +22,9 @@
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "no-throw-literal": 0,
-        "indent": ["error", 2]
+        "indent": ["error", 2],
+        "react/jsx-max-props-per-line": [1, { "maximum": 2 }],
+        "react/jsx-first-prop-new-line": 1
     },
     "settings": {
         "react": {

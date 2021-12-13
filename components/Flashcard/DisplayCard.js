@@ -11,7 +11,9 @@ export default function DisplayCard ({ card, deleteFlashcardHandler }) {
       </div>
       <div className="bg-sky-600 m-auto h-32 px-2 rounded-r-lg">
         <div className="flex flex-col justify-evenly h-full">
-          <PencilAltIcon className="h-9 w-9 cursor-pointer hover:text-sky-50" onClick={() => alert('Guys trust me this website is finished')} />
+          <PencilAltIcon
+            className="h-9 w-9 cursor-pointer hover:text-sky-50"
+            onClick={() => alert('Guys trust me this website is finished')} />
           <TrashIcon
             className="h-9 w-9 cursor-pointer hover:text-sky-50"
             onClick={() => deleteFlashcardHandler(card._id)}

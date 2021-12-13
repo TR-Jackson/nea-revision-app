@@ -12,10 +12,15 @@ export default function FolderInfo ({ name, description, deleteFolderHandler, is
           <p className="text-2xl">{description}</p>
         </div>
         <div className="flex flex-col space-y-4 mx-2">
-          <Button isLoading={isLoading} danger onClick={deleteFolderHandler}>
+          <Button
+            isLoading={isLoading}
+            danger
+            onClick={deleteFolderHandler}>
             DELETE FOLDER
           </Button>
-          <Button main onClick={() => alert('Guys trust me this website is finished')}>
+          <Button
+            main
+            onClick={() => alert('Guys trust me this website is finished')}>
             EDIT FOLDER
           </Button>
         </div>

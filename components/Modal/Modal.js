@@ -24,7 +24,9 @@ export default function Modal ({
   const cancelButtonRef = useRef(null)
 
   return (
-    <Transition.Root show={show} as={Fragment}>
+    <Transition.Root
+      show={show}
+      as={Fragment}>
       <Dialog
         as="div"
         auto-reopen="true"
