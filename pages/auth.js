@@ -38,14 +38,13 @@ export default function Auth () {
         }
       })
       .catch((err) => {
-        console.log(err)
         setIsLoading(false)
-        setError(err)
+        setError(err.response.data.message)
       })
   }
 
   return (
-    <div className="mt-6 w-2/3 mx-auto flex-initial text-center">
+    <div className="mt-6 w-1/3 mx-auto flex-initial text-center">
       <AuthForm submitHandler={submitHandler} />
       <div className="w-full my-3">
         <Button onClick={() => setIsLogin(!isLogin)}>
@@ -53,7 +52,7 @@ export default function Auth () {
         </Button>
       </div>
       {error && (
-        <div className="m-auto mt-6 w-1/5 text-center border border-red-600 bg-red-200">
+        <div className="w-4/5 m-auto mt-6 text-center border border-red-600 bg-red-200 rounded-md p-4 shadow-md shadow-red-200">
           <p>{error}</p>
         </div>
       )}

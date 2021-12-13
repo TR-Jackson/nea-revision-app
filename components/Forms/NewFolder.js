@@ -36,7 +36,9 @@ export default function NewFolderForm ({ submitHandler, cancelHandler }) {
               errors.description ? 'border-red-500' : 'border-sky-500'
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           />
-          <ErrorMessage name="description" component="div" />
+          <ErrorMessage
+            name="description"
+            component="div" />
           <div className="bg-gray-50 px-4 py-3 sm:space-y-2 sm:px-6 flex-row-reverse flex place-content-end">
             <div className="self-end">
               <Button
