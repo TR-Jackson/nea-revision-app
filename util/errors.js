@@ -5,7 +5,8 @@ import {
   reqDeleteFolderSchema,
   reqUpdateFolderSchema,
   reqReviseFolderSchema,
-  reqResponseFlashcardSchema
+  reqResponseFlashcardSchema,
+  reqEditFlashcardSchema
 } from '../lib/yupSchemas'
 
 export function checkReqBody (body, route) {
@@ -43,8 +44,12 @@ export function checkReqBody (body, route) {
     if (!reqResponseFlashcardSchema.isValidSync(body)) error = true
     break
 
+  case '/flashcard/edit':
+    if (!reqEditFlashcardSchema.isValidSync(body)) error = true
+    break
+
   default:
-    throw { message: 'Server Error - Should not be reached', status: 500 }
+    throw { message: 'Critical Server Error', status: 500 }
   }
   if (error) throw { message: 'Bad request', status: 400 }
 }
