@@ -32,7 +32,7 @@ const handler = nextConnect()
           })
           if (!folder) throw { message: 'Invalid foldername', status: 400 }
 
-          if (!folder.owner.equals(user._id)) { throw { message: 'Unauthorised', status: 401 } }
+          if (!folder.owner.equals(user._id)) throw { message: 'Unauthorised', status: 401 }
 
           const reviseSession = await ReviseSession.findOne({
             folder: folder._id

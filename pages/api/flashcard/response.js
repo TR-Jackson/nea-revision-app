@@ -40,6 +40,8 @@ const handler = nextConnect()
           )
           await reviseSession.save()
 
+          // if revise session is empty update the folder saying it has been last revised today
+
           const updatedBoxStatus = [...folder.boxStatus]
           if (req.body.correct) {
             flashcard.nextReview = new Date(
