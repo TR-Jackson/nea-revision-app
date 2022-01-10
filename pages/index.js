@@ -20,8 +20,8 @@ export default function Home () {
     const newFolder = {
       name: values.folderName,
       description: values.description,
-      lastReview: new Date(),
-      boxStatus: [0, 0, 0, 0, 0],
+      nextReview: new Date(),
+      revisedStatus: [0, 0, 0, 0, 0, 0],
       isPrivate: true
     }
     updatedFolders.push(newFolder)
@@ -48,8 +48,9 @@ export default function Home () {
                     key={i}
                     name={folder.name}
                     description={folder.description}
-                    boxStatus={folder.boxStatus}
-                    openFolderHandler={openFolderHandler} />
+                    revisedStatus={folder.revisedStatus}
+                    openFolderHandler={openFolderHandler}
+                    toRevise={new Date(folder.nextReview) <= new Date(Math.floor(Date.now() / 86400000) * 86400000)} />
                 ))
               )
               : (

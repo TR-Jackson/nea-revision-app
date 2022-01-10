@@ -8,9 +8,9 @@ export default function ReviseCard ({ front, back, _id, next }) {
   const [revealed, setRevealed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const responseHandler = async (correct) => {
+  const responseHandler = async (q) => {
     setIsLoading(true)
-    await axios.post('/flashcard/response', { flashcardId: _id, correct: correct })
+    await axios.post('/flashcard/response', { flashcardId: _id, q: q })
     setIsLoading(false)
     setRevealed(false)
     next()
@@ -25,10 +25,19 @@ export default function ReviseCard ({ front, back, _id, next }) {
         ? <div>
           <Button
             isLoading={isLoading}
-            onClick={() => responseHandler(true)}>Correct</Button>
+            onClick={() => responseHandler(1)}>1</Button>
           <Button
             isLoading={isLoading}
-            onClick={() => responseHandler(false)}>Incorrect</Button>
+            onClick={() => responseHandler(2)}>2</Button>
+          <Button
+            isLoading={isLoading}
+            onClick={() => responseHandler(3)}>3</Button>
+          <Button
+            isLoading={isLoading}
+            onClick={() => responseHandler(4)}>4</Button>
+          <Button
+            isLoading={isLoading}
+            onClick={() => responseHandler(5)}>5</Button>
         </div>
         : <Button onClick={() => setRevealed(true)}>Flip flashcard</Button>}
     </div>

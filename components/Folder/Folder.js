@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 import { FolderOpenIcon, BookOpenIcon } from '@heroicons/react/outline'
 
-export default function Folder ({ name, description, boxStatus, openFolderHandler }) {
+export default function Folder ({ name, description, revisedStatus, openFolderHandler, toRevise }) {
   return (
     <div
       className="bg-sky-400 sm:min-w-full p-2 my-6 flex m-auto shadow-md rounded-md mb-0 hover:bg-sky-300 h-auto lg:w-3/5 py-4 px-3"
@@ -25,7 +25,7 @@ export default function Folder ({ name, description, boxStatus, openFolderHandle
         <p className="text-lg">{description}</p>
       </div>
       <div className="flex-grow flex my-auto justify-end space-x-4 pr-6">
-        {boxStatus.map((count, i) => (
+        {revisedStatus.map((count, i) => (
           <p key={i}>{count}</p>
         ))}
       </div>
@@ -36,6 +36,7 @@ export default function Folder ({ name, description, boxStatus, openFolderHandle
 Folder.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  boxStatus: PropTypes.arrayOf(PropTypes.number),
-  openFolderHandler: PropTypes.func
+  revisedStatus: PropTypes.arrayOf(PropTypes.number),
+  openFolderHandler: PropTypes.func,
+  toRevise: PropTypes.bool
 }

@@ -1,6 +1,7 @@
 import nextConnect from 'next-connect'
 import passport from '../../../lib/passport'
 
+import { calcBound } from '../../../util/SM-2'
 import {
   checkAuthError,
   checkAuthorised,
@@ -27,7 +28,7 @@ const handler = nextConnect()
           })
           if (!folder) throw { message: 'Folder not found', status: 400 }
 
-          const boxStatus = [...folder.boxStatus]
+          const newRevisedStatus = [...folder.revisedStatus]
           const newCards = []
 
           for (const i in req.body.flashcards) {
@@ -38,18 +39,21 @@ const handler = nextConnect()
                 owner: user._id
               })
 
-              const box = flashcard.box
+              const prevN = flashcard.n
               flashcard.front = card.front
               flashcard.back = card.back
-              flashcard.box = req.body.refresh ? 0 : flashcard.box
-              flashcard.notStudied = card.refresh
-              flashcard.nextReview = card.refresh
+              flashcard.n = card.reset ? 1 : flashcard.n
+              flashcard.EF = card.reset ? 2.5 : flashcard.EF
+              flashcard.notStudied = card.reset
+              flashcard.nextReview = card.reset
                 ? new Date(0)
                 : flashcard.nextReview
-
               await flashcard.save()
-              boxStatus[box] = boxStatus[box] - 1
-              boxStatus[0] = boxStatus[0] + 1
+
+              if (card.reset) {
+                newRevisedStatus[calcBound(prevN)]--
+                newRevisedStatus[0]++
+              }
             } else {
               const newCard = new Flashcard({
                 folder: folder._id,
@@ -60,13 +64,14 @@ const handler = nextConnect()
 
               const inserted = await newCard.save()
               newCards.push(inserted)
-              boxStatus[0] = boxStatus[0] + 1
+              newRevisedStatus[0]++
             }
           }
-          folder.boxStatus = boxStatus
+          folder.revisedStatus = newRevisedStatus
           await folder.save()
           return res.json({ flashcards: newCards })
         } catch (error) {
+          console.log(error)
           return res.status(error.status).json({ message: error.message })
         }
       }

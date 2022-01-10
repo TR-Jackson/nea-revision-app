@@ -9,6 +9,7 @@ import {
   checkAuthorised,
   checkReqBody
 } from '../../../util/errors'
+import { calcBound } from '../../../util/SM-2'
 
 const handler = nextConnect()
   .use(passport.initialize())
@@ -43,9 +44,9 @@ const handler = nextConnect()
           )
           await reviseSession.save()
 
-          const updatedBoxStatus = [...folder.boxStatus]
-          updatedBoxStatus[flashcard.box]--
-          folder.boxStatus = updatedBoxStatus
+          const updatedRevisedStatus = [...folder.revisedStatus]
+          updatedRevisedStatus[calcBound(flashcard.n)]--
+          folder.revisedStatus = updatedRevisedStatus
           await folder.save()
 
           await Flashcard.deleteOne({
