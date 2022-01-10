@@ -40,7 +40,7 @@ export default function Home () {
         <title>Revision App</title>
         <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
           <p className="font-bold text-2xl mt-6">Hello {user.username}</p>
-          <div className="flex flex-col content-center">
+          <div className="flex flex-col content-center space-y-4">
             {folders.length !== 0
               ? (
                 folders.map((folder, i) => (
@@ -50,7 +50,7 @@ export default function Home () {
                     description={folder.description}
                     revisedStatus={folder.revisedStatus}
                     openFolderHandler={openFolderHandler}
-                    toRevise={new Date(folder.nextReview) <= new Date(Math.floor(Date.now() / 86400000) * 86400000)} />
+                    toRevise={(new Date(folder.nextReview) <= new Date(Math.floor(Date.now() / 86400000) * 86400000) && folder.revisedStatus.some(i => i !== 0))} />
                 ))
               )
               : (

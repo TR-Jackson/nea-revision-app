@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import CookieBanner from '../components/CookieBanner/CookieBanner'
 
 import Navbar from '../components/Navbar'
 import '../styles/globals.css'
@@ -8,6 +9,7 @@ function MyApp ({ Component, pageProps }) {
     <>
       <Navbar />
       <Component {...pageProps} />
+      <CookieBanner />
     </>
   )
 }
