@@ -14,7 +14,7 @@ export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
       }
     >
       {({ handleSubmit, errors, values }) => (
-        <Form className="w-full flex justify-between items-center content-center font-semibold mx-10">
+        <Form className="w-full flex md:flex-row flex-col justify-between items-center content-center font-semibold mx-10">
           <p className="text-xl">Add a new card</p>
           <div>
             <p>Front</p>

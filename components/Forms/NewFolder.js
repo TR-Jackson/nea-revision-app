@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import Button from '../../components/UI/Button/Button'
 import { newFolderFormSchema } from '../../lib/yupSchemas'
 
-export default function NewFolderForm ({ submitHandler, cancelHandler }) {
+export default function NewFolderForm ({ submitHandler, cancelHandler, initName = '', initDesc = '' }) {
   return (
     <Formik
       onSubmit={(values) => submitHandler(values)}
-      initialValues={{ folderName: '', description: '' }}
+      initialValues={{ folderName: initName, description: initDesc }}
       validationSchema={newFolderFormSchema}
     >
       {({ errors, values, handleSubmit, isSubmitting, isValid, touched }) => (
@@ -31,7 +31,7 @@ export default function NewFolderForm ({ submitHandler, cancelHandler }) {
           </p>
           <Field
             name="description"
-            type="textarea"
+            as="textarea"
             className={`shadow appearance-none border ${
               errors.description ? 'border-red-500' : 'border-sky-500'
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
@@ -39,7 +39,7 @@ export default function NewFolderForm ({ submitHandler, cancelHandler }) {
           <ErrorMessage
             name="description"
             component="div" />
-          <div className="bg-gray-50 px-4 py-3 sm:space-y-2 sm:px-6 flex-row-reverse flex place-content-end">
+          <div className="px-4 py-3 sm:space-y-2 sm:px-6 flex-row-reverse flex place-content-end">
             <div className="self-end">
               <Button
                 main
@@ -59,5 +59,7 @@ export default function NewFolderForm ({ submitHandler, cancelHandler }) {
 
 NewFolderForm.propTypes = {
   submitHandler: PropTypes.func,
-  cancelHandler: PropTypes.func
+  cancelHandler: PropTypes.func,
+  initName: PropTypes.string,
+  initDesc: PropTypes.string
 }

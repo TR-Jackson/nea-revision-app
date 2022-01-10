@@ -6,7 +6,8 @@ import {
   reqUpdateFolderSchema,
   reqReviseFolderSchema,
   reqResponseFlashcardSchema,
-  reqEditFlashcardSchema
+  reqEditFlashcardSchema,
+  reqEditFolderSchema
 } from '../lib/yupSchemas'
 
 export function checkReqBody (body, route) {
@@ -26,6 +27,10 @@ export function checkReqBody (body, route) {
 
   case '/folder/create':
     if (!reqCreateFolderSchema.isValidSync(body)) error = true
+    break
+
+  case '/folder/edit':
+    if (!reqEditFolderSchema.isValidSync(body)) error = true
     break
 
   case '/folder/delete':

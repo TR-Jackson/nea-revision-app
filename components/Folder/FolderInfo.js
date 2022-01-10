@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 import Button from '../UI/Button/Button'
 
-export default function FolderInfo ({ name, description, deleteFolderHandler, isLoading }) {
+export default function FolderInfo ({ name, description, deleteFolderHandler, isLoading, editFolderHandler }) {
   return (
     <>
       <title>Revision App - {name}</title>
@@ -20,7 +20,7 @@ export default function FolderInfo ({ name, description, deleteFolderHandler, is
           </Button>
           <Button
             main
-            onClick={() => alert('Guys trust me this website is finished')}>
+            onClick={editFolderHandler}>
             EDIT FOLDER
           </Button>
         </div>
@@ -33,5 +33,6 @@ FolderInfo.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   deleteFolderHandler: PropTypes.func,
+  editFolderHandler: PropTypes.func,
   isLoading: PropTypes.bool
 }

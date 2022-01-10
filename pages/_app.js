@@ -8,6 +8,7 @@ function MyApp ({ Component, pageProps }) {
   return (
     <>
       <Navbar />
+      <div className='h-12'/>
       <Component {...pageProps} />
       <CookieBanner />
     </>
