@@ -60,20 +60,18 @@ export default function Folder () {
 
   return folderData
     ? (
-      <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
+      <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center mt-1 space-y-10">
         <FolderInfo
           name={folderData.folder.name}
           description={folderData.folder.description}
           deleteFolderHandler={deleteFolderHandler}
           isLoading={isDeletingFolder}/>
-        <div className="flex space-x-2">
-          <div className="bg-sky-200 w-full py-6 px-10 flex justify-between rounded-lg border-4 border-sky-700 mt-8">
-            <NewFlashcard
-              saveFlashcardHandler={saveFlashcardHandler}
-              isLoading={isSavingCard} />
-          </div>
+        <div className="bg-sky-200 w-full py-6 px-10 flex justify-between rounded-lg border-4 border-sky-700 mt-8">
+          <NewFlashcard
+            saveFlashcardHandler={saveFlashcardHandler}
+            isLoading={isSavingCard} />
         </div>
-        <div className="w-full m-auto">
+        <div className="w-full m-auto space-y-6">
           {folderData.flashcards.map((card, i) => (
             <DisplayCard
               key={i}
