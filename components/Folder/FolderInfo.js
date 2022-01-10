@@ -6,12 +6,12 @@ export default function FolderInfo ({ name, description, deleteFolderHandler, is
   return (
     <>
       <title>Revision App - {name}</title>
-      <div className="flex bg-sky-200 rounded-md p-5 w-3/4 mx-auto shadow-md">
-        <div className="flex flex-col flex-grow justify-center font-semibold text-lg space-y-2">
-          <p className="text-4xl font-bold">{name}</p>
-          <p className="text-2xl">{description}</p>
+      <div className="flex bg-sky-200 rounded-md p-5 w-3/4 mx-auto shadow-md text-center justify-evenly">
+        <div className="flex-col justify-center font-semibold text-lg space-y-2 w-2/3">
+          <p className="text-4xl font-bold whitespace-pre-line text-clip overflow-hidden grow-0">{name}</p>
+          <p className="text-2xl whitespace-pre-line text-clip overflow-hidden grow-0">{description}</p>
         </div>
-        <div className="flex flex-col space-y-4 mx-2">
+        <div className="flex flex-col space-y-4 mx-2 shrink-0 justify-evenly w-auto">
           <Button
             isLoading={isLoading}
             danger

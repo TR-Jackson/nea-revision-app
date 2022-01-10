@@ -19,6 +19,7 @@ export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
           <div>
             <p>Front</p>
             <Field
+              as="textarea"
               name="front"
               type="front"
               className={`shadow appearance-none border ${
@@ -35,6 +36,7 @@ export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
           <div>
             <p>Back</p>
             <Field
+              as="textarea"
               name="back"
               type="back"
               className={`shadow appearance-none border ${

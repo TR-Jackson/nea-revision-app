@@ -60,7 +60,7 @@ export default function Folder () {
 
   return folderData
     ? (
-      <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center mt-1 space-y-10">
+      <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial mt-1 space-y-10 text-center">
         <FolderInfo
           name={folderData.folder.name}
           description={folderData.folder.description}
