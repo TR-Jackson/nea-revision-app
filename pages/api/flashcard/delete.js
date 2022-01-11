@@ -9,6 +9,7 @@ import {
   checkAuthorised,
   checkReqBody
 } from '../../../util/errors'
+import { calcBound } from '../../../util/SM-2'
 
 const handler = nextConnect()
   .use(passport.initialize())
@@ -32,7 +33,7 @@ const handler = nextConnect()
           })
           if (!folder) throw { message: 'Invalid foldername', status: 400 }
 
-          if (!folder.owner.equals(user._id)) { throw { message: 'Unauthorised', status: 401 } }
+          if (!folder.owner.equals(user._id)) throw { message: 'Unauthorised', status: 401 }
 
           const reviseSession = await ReviseSession.findOne({
             folder: folder._id
@@ -43,9 +44,9 @@ const handler = nextConnect()
           )
           await reviseSession.save()
 
-          const updatedBoxStatus = [...folder.boxStatus]
-          updatedBoxStatus[flashcard.box]--
-          folder.boxStatus = updatedBoxStatus
+          const updatedRevisedStatus = [...folder.revisedStatus]
+          updatedRevisedStatus[calcBound(flashcard.n)]--
+          folder.revisedStatus = updatedRevisedStatus
           await folder.save()
 
           await Flashcard.deleteOne({

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import axios from '../../lib/axiosConfig'
 import Router, { useRouter } from 'next/router'
-
 import useSWR from 'swr'
+
 import useFolders from '../../hooks/useFolders'
 import NewFlashcard from '../../components/Forms/NewFlashcard'
 import DisplayCard from '../../components/Flashcard/DisplayCard'
 import FolderInfo from '../../components/Folder/FolderInfo'
+import NewFolderForm from '../../components/Forms/NewFolder'
+import Modal from '../../components/Modal/Modal'
 
 export default function Folder () {
   const router = useRouter()
@@ -14,11 +16,29 @@ export default function Folder () {
   const { folders, mutateFolders } = useFolders()
   const [isDeletingFolder, setIsDeletingFolder] = useState(false)
   const [isSavingCard, setIsSavingCard] = useState(false)
+  const [showEdit, setShowEdit] = useState(false)
+  const [modalError, setModalError] = useState()
 
   const { data: folderData, mutate } = useSWR(
     router.isReady && `/folder/${owner}/${folderName}`,
     router.isReady && axios
   )
+
+  const editFolderHandler = (values) => {
+    const changes = {}
+    if (values.folderName !== folderData.folder.name) changes.newFolderName = values.folderName
+    if (values.description !== folderData.folder.description) changes.description = values.description
+    axios.post('/folder/edit', { folderName: folderData.folder.name, ...changes }).then(res => {
+      const newFolderData = { ...folderData }
+      newFolderData.folder.folderName = values.folderName
+      newFolderData.folder.description = values.description
+      mutate(newFolderData, false)
+      router.push(`/${owner}/${values.folderName}`)
+      setShowEdit(false)
+    }).catch(err => {
+      setModalError(err)
+    })
+  }
 
   const deleteFlashcardHandler = async (_id) => {
     const updatedFolder = { ...folderData }
@@ -60,28 +80,44 @@ export default function Folder () {
 
   return folderData
     ? (
-      <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
-        <FolderInfo
-          name={folderData.folder.name}
-          description={folderData.folder.description}
-          deleteFolderHandler={deleteFolderHandler}
-          isLoading={isDeletingFolder}/>
-        <div className="flex space-x-2">
+      <>
+        <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial mt-1 space-y-10 text-center">
+          <FolderInfo
+            name={folderData.folder.name}
+            description={folderData.folder.description}
+            deleteFolderHandler={deleteFolderHandler}
+            isLoading={isDeletingFolder}
+            editFolderHandler={() => setShowEdit(true)}/>
           <div className="bg-sky-200 w-full py-6 px-10 flex justify-between rounded-lg border-4 border-sky-700 mt-8">
             <NewFlashcard
               saveFlashcardHandler={saveFlashcardHandler}
               isLoading={isSavingCard} />
           </div>
+          <div className="w-full m-auto space-y-6">
+            {folderData.flashcards.map((card, i) => (
+              <DisplayCard
+                key={i}
+                card={card}
+                deleteFlashcardHandler={deleteFlashcardHandler}/>
+            ))}
+          </div>
         </div>
-        <div className="w-full m-auto">
-          {folderData.flashcards.map((card, i) => (
-            <DisplayCard
-              key={i}
-              card={card}
-              deleteFlashcardHandler={deleteFlashcardHandler}/>
-          ))}
-        </div>
-      </div>
+        <Modal
+          show={showEdit} onClose={() => setShowEdit(false)}
+          edit title="Edit folder"
+        >
+          <>
+            <NewFolderForm
+              initName={folderData.folder.name} initDesc={folderData.folder.description}
+              submitHandler={editFolderHandler} cancelHandler={() => setShowEdit(false)}/>
+            {modalError && (
+              <div className="w-4/5 m-auto mt-6 text-center border border-red-600 bg-red-200 rounded-md p-4 shadow-md shadow-red-200">
+                <p>{modalError}</p>
+              </div>
+            )}
+          </>
+        </Modal>
+      </>
     )
     : (
       <div className="loader"></div>
