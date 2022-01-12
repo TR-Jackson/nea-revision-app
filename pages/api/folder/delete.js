@@ -31,7 +31,7 @@ const handler = nextConnect()
           await ReviseSession.deleteOne({ folder: folder._id })
           await Folder.deleteOne(folder)
 
-          return res.status(200).json()
+          return res.status(200).json({ success: true })
         } catch (error) {
           return res.status(error.status).json({ message: error.message })
         }

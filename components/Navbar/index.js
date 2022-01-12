@@ -1,14 +1,17 @@
 import Cookies from 'js-cookie'
 import Router from 'next/router'
 
+import useFolders from '../../hooks/useFolders'
 import useUser from '../../hooks/useUser'
 import NavbarItem from './NavbarItem'
 
 export default function Navbar () {
   const { user, mutateUser } = useUser()
+  const { mutateFolders } = useFolders()
 
   const logoutHandler = () => {
     mutateUser(false, false)
+    mutateFolders(false, false)
     Cookies.remove('jwt')
     Router.push('/auth')
   }
