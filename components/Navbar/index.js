@@ -1,21 +1,24 @@
 import Cookies from 'js-cookie'
 import Router from 'next/router'
 
+import useFolders from '../../hooks/useFolders'
 import useUser from '../../hooks/useUser'
 import NavbarItem from './NavbarItem'
 
 export default function Navbar () {
   const { user, mutateUser } = useUser()
+  const { mutateFolders } = useFolders()
 
   const logoutHandler = () => {
     mutateUser(false, false)
+    mutateFolders(false, false)
     Cookies.remove('jwt')
     Router.push('/auth')
   }
 
   if (user) {
     return (
-      <div className="bg-sky-500 w-full h-12">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-full h-12 fixed z-10 top-0">
         <div className="flex w-2/3 mx-auto flex-row p-2">
           <div className="flex flex-row justify-start space-x-2 flex-grow">
             <NavbarItem

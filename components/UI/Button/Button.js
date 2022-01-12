@@ -10,7 +10,7 @@ export default function Button ({
 }) {
   return (
     <button
-      disabled={disabled}
+      disabled={disabled || isLoading}
       type="button"
       className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium ${
         disabled || isLoading

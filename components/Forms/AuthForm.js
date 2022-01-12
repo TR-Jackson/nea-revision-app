@@ -13,7 +13,7 @@ export default function AuthForm ({ submitHandler }) {
       initialValues={{ username: '', password: '' }}
       validationSchema={authFormSchema}
     >
-      {({ errors, values, handleSubmit }) => (
+      {({ errors, values, handleSubmit, isSubmitting, isValid }) => (
         <Form className="flex flex-col space-y-6">
           <div>
             <p className="block text-gray-700 text-sm font-bold mb-2">
@@ -48,6 +48,8 @@ export default function AuthForm ({ submitHandler }) {
           </div>
           <div>
             <Button
+              isLoading={isSubmitting}
+              disabled={!isValid}
               main
               onClick={() => handleSubmit(values)}>
               Submit

@@ -40,7 +40,7 @@ const handler = nextConnect()
           })
           await newReviseSession.save()
 
-          return res.status(200).json()
+          return res.status(200).json({ success: true })
         } catch (error) {
           return res.status(error.status).json({ message: error.message })
         }

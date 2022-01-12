@@ -4,7 +4,8 @@ import handleError from '../middleware/db'
 
 const reviseSessionSchema = new mongoose.Schema({
   folder: { type: mongoose.ObjectId, required: true },
-  toReview: { type: [mongoose.ObjectId], default: [] } // [flashcardIDs]
+  toReview: { type: [mongoose.ObjectId], default: [] }, // [flashcardIDs]
+  dateAdded: { type: Date, default: new Date(0) }
 })
 
 reviseSessionSchema.post('save', handleError)
