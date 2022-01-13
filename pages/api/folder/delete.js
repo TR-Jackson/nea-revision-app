@@ -29,7 +29,7 @@ const handler = nextConnect()
 
           await Flashcard.deleteMany({ folder: folder._id })
           await ReviseSession.deleteOne({ folder: folder._id })
-          await Folder.deleteOne(folder)
+          await Folder.deleteOne({ _id: folder._id })
 
           return res.status(200).json({ success: true })
         } catch (error) {
