@@ -196,7 +196,8 @@ Modal.propTypes = {
   description: PropTypes.string,
   onSubmit: PropTypes.func,
   buttons: PropTypes.bool,
-  info: PropTypes.bool
+  info: PropTypes.bool,
+  closeButton: PropTypes.bool
 }
 
 // https://tailwindui.com/components/application-ui/overlays/modals
