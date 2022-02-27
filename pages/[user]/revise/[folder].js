@@ -22,12 +22,16 @@ export default function Revise () {
     setIsLoading(false)
   }, [router])
 
-  const nextCardHandler = () => {
-    if (currCard === flashcards.length - 1) {
-      setIsFinished(true)
-    } else {
-      setCurrCard(currCard + 1)
+  const nextCardHandler = (q) => {
+    console.log(flashcards)
+    if (q > 3) {
+      if (currCard === flashcards.length - 1) {
+        setIsFinished(true)
+      } else {
+        flashcards.pop(currCard)
+      }
     }
+    setCurrCard(currCard + 1 % flashcards.length)
   }
 
   return !isLoading
