@@ -17,7 +17,7 @@ export default function ReviseCard ({ front, back, _id, next }) {
     await axios.post('/flashcard/response', { flashcardId: _id, q: q })
     setIsLoading(false)
     setRevealed(false)
-    next()
+    next(q)
   }
 
   return (

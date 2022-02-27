@@ -45,6 +45,7 @@ const handler = nextConnect()
           await reviseSession.save()
 
           const updatedRevisedStatus = [...folder.revisedStatus]
+          console.log([calcBound(flashcard.n)])
           updatedRevisedStatus[calcBound(flashcard.n)]--
           folder.revisedStatus = updatedRevisedStatus
           await folder.save()
