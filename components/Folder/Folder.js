@@ -10,32 +10,41 @@ export default function Folder ({ name, description, revisedStatus, openFolderHa
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="relative flex justify-center">
+    <div className='relative flex justify-center'>
       <div
-        className={`${toRevise && 'border-2 border-sky-800'} lg:max-w-4/5 m-1 bg-sky-400 sm:min-w-full p-2 flex shadow-md rounded-md mb-0 hover:bg-sky-300 h-auto lg:w-3/5 py-4 px-3`}
+        className={`${toRevise && 'border-2 border-sky-800'} w-full m-1 bg-sky-400 p-2  shadow-md rounded-md mb-0 hover:bg-sky-300 h-auto py-4 px-3`}
       >
-        <div className="ml-1">
-          <FolderOpenIcon
-            className="h-7 w-7  mr-2  cursor-pointer hover:text-gray-50"
-            onClick={() => openFolderHandler(name)
-            }
-          />
-          <BookOpenIcon
-            className="h-7 w-7  mr-2 cursor-pointer hover:text-gray-50"
-            onClick={() =>
-              openFolderHandler(name, true)
-            }
-          />
+        <div className='flex'>
+          <div className='ml-1'>
+            <FolderOpenIcon
+              className='h-7 w-7  mr-2  cursor-pointer hover:text-gray-50'
+              onClick={() => openFolderHandler(name)
+              }
+            />
+            <BookOpenIcon
+              className='h-7 w-7  mr-2 cursor-pointer hover:text-gray-50'
+              onClick={() =>
+                openFolderHandler(name, true)
+              }
+            />
+          </div>
+          <div className='flex flex-col truncate text-left mx-1 w-auto'>
+            <p className='font-semibold truncate text-xl grow-0'>{name}</p>
+            <p className='text-lg truncate grow'>{description}</p>
+          </div>
+          <div className='flex-grow top-0 right-0'>
+            <div className='h-6 w-6'>
+              <ExpandChevron
+                expanded={isExpanded} onToggle={() => setIsExpanded(!isExpanded)}
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col truncate text-left mx-1 w-auto">
-          <p className="font-semibold truncate text-xl grow-0">{name}</p>
-          <p className="text-lg truncate grow">{description}</p>
-        </div>
-        <div className="flex-grow flex my-auto justify-end space-x-4 pr-6 shrink-0">
-          <div className=' w-auto'>
+        <div className='flex-grow flex my-auto justify-end space-x-4 pr-6 shrink-0'>
+          <div className='w-auto place-self-center'>
             {isExpanded && (
               <>
-                <div className='font-semibold'>Number of correct days of repetion</div>
+                <div className='font-semibold'>Number of correct days of repetition</div>
                 <Bar
                   data={{
                     labels: ['Unrevised', '0', '1', '2 to 3', '4 to 8', '8+'],
@@ -70,16 +79,11 @@ export default function Folder ({ name, description, revisedStatus, openFolderHa
               </>
             )}
           </div>
-          <div className='h-6 w-6'>
-            <ExpandChevron
-              expanded={isExpanded} onToggle={() => setIsExpanded(!isExpanded)}
-            />
-          </div>
         </div>
       </div>
-      {toRevise && <div className="w-auto justify-end flex">
-        <div className="h-3 w-3 rounded-full bg-sky-800 absolute"></div>
-        <div className="h-3 w-3 rounded-full bg-sky-800 absolute animate-ping inline-flex"></div>
+      {toRevise && <div className='w-auto justify-end flex'>
+        <div className='h-3 w-3 rounded-full bg-sky-800 absolute'></div>
+        <div className='h-3 w-3 rounded-full bg-sky-800 absolute animate-ping inline-flex'></div>
       </div>}
     </div>
   )
