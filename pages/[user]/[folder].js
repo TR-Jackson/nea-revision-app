@@ -93,7 +93,7 @@ export default function Folder () {
               saveFlashcardHandler={saveFlashcardHandler}
               isLoading={isSavingCard} />
           </div>
-          <div className="w-full m-auto space-y-6">
+          <div className="w-full m-auto space-y-6 pb-10">
             {folderData.flashcards.map((card, i) => (
               <DisplayCard
                 key={i}
