@@ -25,17 +25,12 @@ export default function Auth () {
         password: password
       })
       .then((res) => {
-        if (res.username) {
-          setError(res.message)
-          setIsLoading(false)
-        } else {
-          const today = new Date()
-          const expires = new Date(today.getTime() + parseInt(res.jwt.expires))
-          const jwt = res.jwt.token.replace('Bearer ', '')
-          Cookies.set('jwt', jwt, { expires: expires })
-          mutateUser(res.user)
-          Router.push('/')
-        }
+        const today = new Date()
+        const expires = new Date(today.getTime() + parseInt(res.jwt.expires))
+        const jwt = res.jwt.token.replace('Bearer ', '')
+        Cookies.set('jwt', jwt, { expires: expires })
+        mutateUser(res.user)
+        Router.push('/')
       })
       .catch((err) => {
         setIsLoading(false)

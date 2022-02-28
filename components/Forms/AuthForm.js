@@ -7,13 +7,14 @@ import { authFormSchema } from '../../lib/yupSchemas'
 export default function AuthForm ({ submitHandler }) {
   return (
     <Formik
-      onSubmit={(values) => {
+      onSubmit={(values, { resetForm }) => {
         submitHandler(values)
+        resetForm()
       }}
       initialValues={{ username: '', password: '' }}
       validationSchema={authFormSchema}
     >
-      {({ errors, values, handleSubmit, isSubmitting, isValid }) => (
+      {({ errors, values, handleSubmit, isSubmitting, isValid, touched }) => (
         <Form className="flex flex-col space-y-6">
           <div>
             <p className="block text-gray-700 text-sm font-bold mb-2">
@@ -22,7 +23,7 @@ export default function AuthForm ({ submitHandler }) {
             <Field
               name="username"
               className={`shadow appearance-none border ${
-                errors.username ? 'border-red-500' : 'border-sky-500'
+                errors.username && touched.username ? 'border-red-500' : 'border-sky-500'
               } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
             />
             <ErrorMessage
@@ -38,7 +39,7 @@ export default function AuthForm ({ submitHandler }) {
               name="password"
               type="password"
               className={`shadow appearance-none border ${
-                errors.password ? 'border-red-500' : 'border-sky-500'
+                errors.password && touched.password ? 'border-red-500' : 'border-sky-500'
               } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
             />
             <ErrorMessage

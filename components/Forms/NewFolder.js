@@ -19,7 +19,7 @@ export default function NewFolderForm ({ submitHandler, cancelHandler, initName 
           <Field
             name="folderName"
             className={`shadow appearance-none border ${
-              errors.folderName ? 'border-red-500' : 'border-sky-500'
+              errors.folderName && touched.folderName ? 'border-red-500' : 'border-sky-500'
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           />
           <ErrorMessage
@@ -33,7 +33,7 @@ export default function NewFolderForm ({ submitHandler, cancelHandler, initName 
             name="description"
             as="textarea"
             className={`shadow appearance-none border ${
-              errors.description ? 'border-red-500' : 'border-sky-500'
+              errors.description && touched.description ? 'border-red-500' : 'border-sky-500'
             } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           />
           <ErrorMessage
