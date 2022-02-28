@@ -14,6 +14,12 @@ export default function Home () {
   const { user } = useUser({ redirectTo: '/auth' })
   const { folders, mutateFolders } = useFolders()
   const [createFolder, setCreateFolder] = useState(false)
+  const [formError, setFormError] = useState(false)
+
+  const modalCloseHandler = () => {
+    setCreateFolder(false)
+    setFormError(false)
+  }
 
   const newFolderHandler = async (values) => {
     const updatedFolders = [...folders]
@@ -25,9 +31,12 @@ export default function Home () {
       isPrivate: true
     }
     updatedFolders.push(newFolder)
-    mutateFolders(updatedFolders, false)
-    await axios.post('/folder/create', values)
-    router.push(`/${user.username}/${values.folderName}`)
+    axios.post('/folder/create', values).then(res => {
+      mutateFolders(updatedFolders, false)
+      router.push(`/${user.username}/${values.folderName}`)
+    }).catch(err => {
+      setFormError(err.response.data.message)
+    })
   }
 
   const openFolderHandler = (folderName, isRevise) => {
@@ -67,15 +76,20 @@ export default function Home () {
         </div>
         <Modal
           show={createFolder}
-          onClose={() => setCreateFolder(false)}
+          onClose={modalCloseHandler}
           folderAdd
           title="Create New Folder"
           buttons={false}
         >
           <NewFolderForm
             submitHandler={newFolderHandler}
-            cancelHandler={() => setCreateFolder(false)}
+            cancelHandler={modalCloseHandler}
           />
+          {formError && (
+            <div className="w-4/5 m-auto mt-6 text-center border border-red-600 bg-red-200 rounded-md p-4 shadow-md shadow-red-200">
+              <p>{formError}</p>
+            </div>
+          )}
         </Modal>
       </>
     )
