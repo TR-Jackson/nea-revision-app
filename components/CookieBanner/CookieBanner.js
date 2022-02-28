@@ -11,7 +11,7 @@ export default function CookieBanner () {
 
   return (show
     ? (
-      <div className="w-full p-5 lg:px-24 absolute fixed bottom-0 bg-gray-700">
+      <div className="w-full p-5 lg:px-24 fixed bottom-0 bg-gray-700">
         <div className="md:flex items-center -mx-3">
           <div className="md:flex-1 px-3 mb-5 md:mb-0">
             <p className="text-center md:text-left text-white text-s leading-tight md:pr-12">This website uses functional cookies only to enhance the user experience!</p>

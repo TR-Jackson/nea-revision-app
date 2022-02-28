@@ -185,7 +185,7 @@ export default function Modal ({
 }
 
 Modal.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   show: PropTypes.bool,
   onClose: PropTypes.func,
   danger: PropTypes.bool,

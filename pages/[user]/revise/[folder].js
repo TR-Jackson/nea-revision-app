@@ -23,15 +23,13 @@ export default function Revise () {
   }, [router])
 
   const nextCardHandler = (q) => {
-    console.log(flashcards)
     if (q > 3) {
-      if (currCard === flashcards.length - 1) {
+      setFlashcards(flashcards.filter((c, i) => i !== currCard))
+      if (flashcards.length === 0) {
         setIsFinished(true)
-      } else {
-        flashcards.pop(currCard)
       }
     }
-    setCurrCard(currCard + 1 % flashcards.length)
+    setCurrCard((currCard + 1) % flashcards.length)
   }
 
   return !isLoading
@@ -52,6 +50,7 @@ export default function Revise () {
         : (
           <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
             <div className='font-bold text-3xl'>Revising {folder}</div>
+            {console.log('flashcards', flashcards[currCard].front)}
             <ReviseCard
               next={nextCardHandler}
               front={flashcards[currCard].front}
