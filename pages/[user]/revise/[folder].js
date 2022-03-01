@@ -30,7 +30,6 @@ export default function Revise () {
         setIsFinished(true)
       }
     }
-    console.log(updatedFlashcards, (currCard + 1) % updatedFlashcards.length)
     setFlashcards(updatedFlashcards)
     setCurrCard((currCard + 1) % updatedFlashcards.length)
   }
@@ -53,7 +52,6 @@ export default function Revise () {
         : (
           <div className="flex flex-col justify-center w-2/3 mx-auto flex-initial text-center space-y-6 my-6">
             <div className='font-bold text-3xl'>Revising {folder}</div>
-            {console.log('curr', currCard, flashcards[currCard])}
             <ReviseCard
               next={nextCardHandler}
               front={flashcards[currCard].front}
