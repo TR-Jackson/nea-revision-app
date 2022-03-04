@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 
 import Button from '../../components/UI/Button/Button'
 import { newFolderFormSchema } from '../../lib/yupSchemas'
+import { trimObj } from '../../util/forms'
 
-export default function NewFolderForm ({ submitHandler, cancelHandler, initName = '', initDesc = '' }) {
+export default function NewFolderForm ({ submitHandler, cancelHandler, isLoading, initName = '', initDesc = '' }) {
   return (
     <Formik
-      onSubmit={(values) => submitHandler(values)}
+      onSubmit={(values) => submitHandler(trimObj(values))}
       initialValues={{ folderName: initName, description: initDesc }}
       validationSchema={newFolderFormSchema}
     >
-      {({ errors, values, handleSubmit, isSubmitting, isValid, touched }) => (
+      {({ errors, values, handleSubmit, isValid, touched }) => (
         <Form className="flex flex-col space-y-2">
           <p className="block text-gray-700 text-sm font-bold mb-2">
             Folder Name
@@ -44,12 +45,13 @@ export default function NewFolderForm ({ submitHandler, cancelHandler, initName 
               <Button
                 main
                 onClick={() => handleSubmit(values)}
-                disabled={isSubmitting || !isValid}
+                disabled={!isValid}
+                isLoading={isLoading}
               >
                 Submit
               </Button>
             </div>
-            <Button onClick={cancelHandler}>Cancel</Button>
+            <Button onClick={cancelHandler} isLoading={isLoading}>Cancel</Button>
           </div>
         </Form>
       )}
@@ -61,5 +63,6 @@ NewFolderForm.propTypes = {
   submitHandler: PropTypes.func,
   cancelHandler: PropTypes.func,
   initName: PropTypes.string,
-  initDesc: PropTypes.string
+  initDesc: PropTypes.string,
+  isLoading: PropTypes.bool
 }

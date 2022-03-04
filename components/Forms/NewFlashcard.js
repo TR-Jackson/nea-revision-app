@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { flashcardFormSchema } from '../../lib/yupSchemas'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import Button from '../UI/Button/Button'
+import { trimObj } from '../../util/forms'
 
 export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
   return (
@@ -10,7 +11,7 @@ export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
       initialValues={{ front: '', back: ' ' }}
       validationSchema={flashcardFormSchema}
       onSubmit={(values, { resetForm }) =>
-        saveFlashcardHandler(true, values, resetForm)
+        saveFlashcardHandler(true, trimObj(values), resetForm)
       }
     >
       {({ handleSubmit, errors, values, touched }) => (

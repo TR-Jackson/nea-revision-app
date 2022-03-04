@@ -15,6 +15,7 @@ export default function Home () {
   const { folders, mutateFolders } = useFolders()
   const [createFolder, setCreateFolder] = useState(false)
   const [formError, setFormError] = useState(false)
+  const [isLoadingCreate, setIsLoadingCreate] = useState(false)
 
   const modalCloseHandler = () => {
     setCreateFolder(false)
@@ -22,6 +23,7 @@ export default function Home () {
   }
 
   const newFolderHandler = async (values) => {
+    setIsLoadingCreate(true)
     const updatedFolders = [...folders]
     const newFolder = {
       name: values.folderName,
@@ -82,6 +84,7 @@ export default function Home () {
           buttons={false}
         >
           <NewFolderForm
+            isLoading={isLoadingCreate}
             submitHandler={newFolderHandler}
             cancelHandler={modalCloseHandler}
           />
