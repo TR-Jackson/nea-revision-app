@@ -17,7 +17,7 @@ export default function Folder () {
   const [isDeletingFolder, setIsDeletingFolder] = useState(false)
   const [isSavingCard, setIsSavingCard] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
-  const [modalError, setModalError] = useState()
+  const [modalError, setModalError] = useState(false)
 
   const { data: folderData, mutate } = useSWR(
     router.isReady && `/folder/${owner}/${folderName}`,
@@ -25,6 +25,7 @@ export default function Folder () {
   )
 
   const editFolderHandler = (values) => {
+    setModalError(false)
     const changes = {}
     if (values.folderName !== folderData.folder.name) changes.newFolderName = values.folderName
     if (values.description !== folderData.folder.description) changes.description = values.description
@@ -36,7 +37,7 @@ export default function Folder () {
       router.push(`/${owner}/${values.folderName}`)
       setShowEdit(false)
     }).catch(err => {
-      setModalError(err)
+      setModalError(err.response.data.message)
     })
   }
 
@@ -78,6 +79,11 @@ export default function Folder () {
     resetForm()
   }
 
+  const closeEditFolderHandler = () => {
+    setShowEdit(false)
+    setModalError(false)
+  }
+
   return folderData
     ? (
       <>
@@ -103,13 +109,13 @@ export default function Folder () {
           </div>
         </div>
         <Modal
-          show={showEdit} onClose={() => setShowEdit(false)}
+          show={showEdit} onClose={closeEditFolderHandler}
           edit title="Edit folder"
         >
           <>
             <NewFolderForm
               initName={folderData.folder.name} initDesc={folderData.folder.description}
-              submitHandler={editFolderHandler} cancelHandler={() => setShowEdit(false)}/>
+              submitHandler={editFolderHandler} cancelHandler={closeEditFolderHandler}/>
             {modalError && (
               <div className="w-4/5 m-auto mt-6 text-center border border-red-600 bg-red-200 rounded-md p-4 shadow-md shadow-red-200">
                 <p>{modalError}</p>
