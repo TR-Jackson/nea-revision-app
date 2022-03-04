@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 
 import Button from '../../components/UI/Button/Button'
 import { newFolderFormSchema } from '../../lib/yupSchemas'
+import { trimObj } from '../../util/forms'
 
 export default function NewFolderForm ({ submitHandler, cancelHandler, isLoading, initName = '', initDesc = '' }) {
   return (
     <Formik
-      onSubmit={(values) => submitHandler(values)}
+      onSubmit={(values) => submitHandler(trimObj(values))}
       initialValues={{ folderName: initName, description: initDesc }}
       validationSchema={newFolderFormSchema}
     >

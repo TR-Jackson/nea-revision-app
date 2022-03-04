@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import PropTypes from 'prop-types'
 
+import { trimObj } from '../../util/forms'
 import Button from '../../components/UI/Button/Button'
 import { authFormSchema } from '../../lib/yupSchemas'
 
@@ -8,7 +9,7 @@ export default function AuthForm ({ submitHandler }) {
   return (
     <Formik
       onSubmit={(values, { resetForm }) => {
-        submitHandler(values)
+        submitHandler(trimObj(values))
         resetForm()
       }}
       initialValues={{ username: '', password: '' }}
