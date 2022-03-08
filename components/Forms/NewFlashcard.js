@@ -8,7 +8,7 @@ import { trimObj } from '../../util/forms'
 export default function NewFlashcard ({ saveFlashcardHandler, isLoading }) {
   return (
     <Formik
-      initialValues={{ front: '', back: ' ' }}
+      initialValues={{ front: '', back: '' }}
       validationSchema={flashcardFormSchema}
       onSubmit={(values, { resetForm }) =>
         saveFlashcardHandler(true, trimObj(values), resetForm)
