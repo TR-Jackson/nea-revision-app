@@ -7,6 +7,7 @@ import {
   checkAuthorised,
   checkReqBody
 } from '../../../util/errors'
+import { flashcardFormSchema } from '../../../lib/yupSchemas'
 import Flashcard from '../../../models/Flashcard'
 import Folder from '../../../models/Folder'
 
@@ -33,6 +34,7 @@ const handler = nextConnect()
 
           for (const i in req.body.flashcards) {
             const card = req.body.flashcards[i]
+            if (!flashcardFormSchema.isValidSync(card)) continue
             if (card?._id) {
               const flashcard = await Flashcard.findOne({
                 _id: card._id,
