@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
 export default function CookieBanner () {
-  const [show, setShow] = useState(!Cookies.get('acceptedCookiePolicy'))
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    setShow(!Cookies.get('acceptedCookiePolicy'))
+  }, [])
 
   const acceptHandler = () => {
     Cookies.set('acceptedCookiePolicy', true)

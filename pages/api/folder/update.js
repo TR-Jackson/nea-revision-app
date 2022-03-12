@@ -71,7 +71,6 @@ const handler = nextConnect()
           await folder.save()
           return res.json({ flashcards: newCards })
         } catch (error) {
-          console.log(error)
           return res.status(error.status).json({ message: error.message })
         }
       }

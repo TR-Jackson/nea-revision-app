@@ -60,7 +60,7 @@ export function checkReqBody (body, route) {
 }
 
 export function checkAuthError (error) {
-  if (error) throw { message: error || 'Error authenticating', status: 500 }
+  if (error) throw { message: error || 'Error authenticating', status: 401 }
 }
 
 export function checkAuthorised (user) {
