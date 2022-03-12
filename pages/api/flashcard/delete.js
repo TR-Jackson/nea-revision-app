@@ -33,7 +33,7 @@ const handler = nextConnect()
           })
           if (!folder) throw { message: 'Invalid foldername', status: 400 }
 
-          if (!folder.owner.equals(user._id)) throw { message: 'Unauthorised', status: 401 }
+          if (!folder.owner.equals(user._id)) throw { message: 'Invalid flashcard', status: 400 }
 
           const reviseSession = await ReviseSession.findOne({
             folder: folder._id
@@ -45,7 +45,6 @@ const handler = nextConnect()
           await reviseSession.save()
 
           const updatedRevisedStatus = [...folder.revisedStatus]
-          console.log([calcBound(flashcard.n)])
           updatedRevisedStatus[calcBound(flashcard.n)]--
           folder.revisedStatus = updatedRevisedStatus
           await folder.save()
@@ -57,7 +56,6 @@ const handler = nextConnect()
 
           return res.status(200).json({ success: true })
         } catch (error) {
-          console.log(error)
           return res.status(error.status).json({ message: error.message })
         }
       }

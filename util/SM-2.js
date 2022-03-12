@@ -1,7 +1,7 @@
 export function calcTNR (n, EF) {
   if (n === 0) return new Date(Date.now() + 86400000)
   if (n === 1) return new Date(Date.now() + 86400000)
-  if (n === 2) return new Date(Date.now + 6 * 86400000)
+  if (n === 2) return new Date(Date.now() + 6 * 86400000)
   return new Date(Date.now() + Math.ceil(EF ** (n - 2) * 6) * 86400000)
 }
 
