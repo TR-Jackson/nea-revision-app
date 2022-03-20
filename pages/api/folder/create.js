@@ -9,6 +9,8 @@ import {
 import ReviseSession from '../../../models/ReviseSession'
 import Folder from '../../../models/Folder'
 
+// API route for creating a new folder
+// Used by the Home/index page
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
@@ -25,7 +27,7 @@ const handler = nextConnect()
             owner: user._id,
             name: req.body.folderName
           })
-
+          // Check if the folder already exists
           if (folder) throw { message: 'Folder already exists', status: 400 }
 
           const newFolder = new Folder({

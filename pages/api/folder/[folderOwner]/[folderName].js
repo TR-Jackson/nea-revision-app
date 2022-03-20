@@ -6,6 +6,8 @@ import { checkAuthError, checkAuthorised } from '../../../../util/errors'
 import Folder from '../../../../models/Folder'
 import User from '../../../../models/User'
 
+// API route for getting a folder's flashcards and information
+// Used by the Folder page
 const handler = nextConnect()
   .use(passport.initialize())
   .get((req, res) => {

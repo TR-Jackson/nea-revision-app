@@ -10,6 +10,8 @@ import Flashcard from '../../../models/Flashcard'
 import Folder from '../../../models/Folder'
 import ReviseSession from '../../../models/ReviseSession'
 
+// API route for deleting a folder
+// Used by the Folder page
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
@@ -27,6 +29,7 @@ const handler = nextConnect()
           })
           if (!folder) throw { message: 'Invalid folder', status: 400 }
 
+          // Delete the revise session for the folder, its related flashcards, and the main folder document itself
           await Flashcard.deleteMany({ folder: folder._id })
           await ReviseSession.deleteOne({ folder: folder._id })
           await Folder.deleteOne({ _id: folder._id })

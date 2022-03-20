@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 
 import ReviseCard from '../../../components/Flashcard/ReviseCard'
 import useUser from '../../../hooks/useUser'
-import Button from '../../../components/UI/Button/Button'
+import Button from '../../../components/UI/Button/Button
 
+// This is the page for revising a folder
 export default function Revise () {
   const router = useRouter()
   const { folder } = router.query
@@ -15,6 +16,7 @@ export default function Revise () {
   const [isLoading, setIsLoading] = useState(true)
   const [isFinished, setIsFinished] = useState(false)
 
+  // Fetches the flashcards that need to be revised when the page loads
   useEffect(async () => {
     if (!router.isReady) return
     const res = await axios.post('/folder/revise', { folderName: folder })
@@ -22,6 +24,8 @@ export default function Revise () {
     setIsLoading(false)
   }, [router])
 
+  // Function to update the array of flashcards to be revised and update the pointer (currCard) which points to the flashcard being revised currently
+  // Used by the ReviseCard component
   const nextCardHandler = (q) => {
     let updatedFlashcards = [...flashcards]
     if (q > 3) {

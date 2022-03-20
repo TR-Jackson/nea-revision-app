@@ -11,6 +11,7 @@ import {
   checkReqBody
 } from '../../../util/errors'
 
+// API route for sending a response for a flashcard when revising
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
@@ -31,6 +32,7 @@ const handler = nextConnect()
           const folder = await Folder.findOne({
             _id: flashcard.folder
           })
+          // Checks if folder has already been fully revised today
           if (Math.floor(Date.now() / 86400000) * 86400000 < folder.nextReview.getTime()) throw { status: 200, message: 'Already finished revising today' }
 
           const reviseSession = await ReviseSession.findOne({
@@ -39,10 +41,11 @@ const handler = nextConnect()
 
           if (!reviseSession.toReview.includes(flashcard._id)) throw { status: 400, message: 'Invalid flashcard ID' }
 
+          // Updates the time of next review, folder progress, number of days of correct repetition and easiness factor
           const newRevisedStatus = [...folder.revisedStatus]
           const q = req.body.q
           flashcard.EF = calcNewEF(flashcard.EF, q)
-          if (!flashcard.reviewedToday) {
+          if (!flashcard.reviewedToday) { // If the flashcard hasn't already been attempted in that revise session
             if (flashcard.notStudied) newRevisedStatus[0]--
             else newRevisedStatus[calcBound(flashcard.n)]--
 
@@ -61,7 +64,7 @@ const handler = nextConnect()
             }
 
             newRevisedStatus[calcBound(flashcard.n)]++
-          } else {
+          } else { // If the flashcard has already been attempted (i.e. scored a q <= 3 on previous attempt)
             if (q >= 4) {
               flashcard.reviewedToday = false
               reviseSession.toReview = reviseSession.toReview.filter(
@@ -71,6 +74,7 @@ const handler = nextConnect()
             }
           }
           folder.revisedStatus = newRevisedStatus
+          // If folder has been fully revised then set its time of next review to tomorrow so the indicator client-side stops showing
           if (reviseSession.toReview.length === 0) folder.nextReview = new Date(Math.floor(Date.now() / 86400000) * 86400000 + 86400000)
           flashcard.notStudied = false
 

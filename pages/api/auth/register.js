@@ -1,3 +1,5 @@
+// https://github.com/Herpryth/MERN-Passport-Authentication
+
 import nextConnect from 'next-connect'
 import passport from '../../../lib/passport'
 
@@ -27,5 +29,3 @@ handler.use(passport.initialize()).post((req, res) => {
 })
 
 export default handler
-
-// https://github.com/Herpryth/MERN-Passport-Authentication

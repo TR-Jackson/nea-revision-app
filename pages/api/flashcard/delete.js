@@ -11,6 +11,7 @@ import {
 } from '../../../util/errors'
 import { calcBound } from '../../../util/SM-2'
 
+// API route for deleting flashcards
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
@@ -23,6 +24,9 @@ const handler = nextConnect()
           checkReqBody(req.body, '/flashcard/delete')
           checkAuthorised(user)
 
+          // Delete the flashcard from the flashcards table
+          // Remove it from the revise session if its in there
+
           const flashcard = await Flashcard.findOne({
             _id: req.body.flashcardId
           })
@@ -33,6 +37,7 @@ const handler = nextConnect()
           })
           if (!folder) throw { message: 'Invalid foldername', status: 400 }
 
+          // Check if folder being deleted belongs to the user logged in
           if (!folder.owner.equals(user._id)) throw { message: 'Invalid flashcard', status: 400 }
 
           const reviseSession = await ReviseSession.findOne({
@@ -44,6 +49,7 @@ const handler = nextConnect()
           )
           await reviseSession.save()
 
+          // Remove flashcard from the folder's progress
           const updatedRevisedStatus = [...folder.revisedStatus]
           if (flashcard.notStudied) updatedRevisedStatus[0]--
           else updatedRevisedStatus[calcBound(flashcard.n)]--

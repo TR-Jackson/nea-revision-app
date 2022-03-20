@@ -1,3 +1,5 @@
+// https://github.com/Herpryth/MERN-Passport-Authentication
+
 import nextConnect from 'next-connect'
 import passport from '../../../lib/passport'
 
@@ -26,5 +28,3 @@ const handler = nextConnect()
   })
 
 export default handler
-
-// https://github.com/Herpryth/MERN-Passport-Authentication

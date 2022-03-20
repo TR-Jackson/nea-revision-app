@@ -10,6 +10,7 @@ import FolderInfo from '../../components/Folder/FolderInfo'
 import NewFolderForm from '../../components/Forms/NewFolder'
 import Modal from '../../components/Modal/Modal'
 
+// This is the page for viewing a specific folder
 export default function Folder () {
   const router = useRouter()
   const { folder: folderName, user: owner } = router.query
@@ -19,11 +20,14 @@ export default function Folder () {
   const [showEdit, setShowEdit] = useState(false)
   const [modalError, setModalError] = useState(false)
 
+  // Fetches the folder's information and flashcards
   const { data: folderData, mutate } = useSWR(
     router.isReady && `/folder/${owner}/${folderName}`,
     router.isReady && axios
   )
 
+  // Handler to edit the folder's information
+  // Used by the newFolderForm component
   const editFolderHandler = (values) => {
     setModalError(false)
     const changes = {}
@@ -41,6 +45,8 @@ export default function Folder () {
     })
   }
 
+  // Handler to delete a flashcard
+  // Used by the DisplayCard component
   const deleteFlashcardHandler = async (_id) => {
     const updatedFolder = { ...folderData }
     updatedFolder.flashcards = updatedFolder.flashcards.filter(
@@ -50,13 +56,15 @@ export default function Folder () {
     await axios.post('/flashcard/delete', { flashcardId: _id })
   }
 
+  // Handler to delete the folder
+  // Used by the FolderInfo component
   const deleteFolderHandler = () => {
     setIsDeletingFolder(true)
     mutateFolders(
       folders.filter((folder) => folder.name !== folderName),
       false
     )
-    mutate({}, false)
+    mutate(false, false)
     axios
       .post('/folder/delete', { folder: folderName })
       .then((res) => {
@@ -65,6 +73,8 @@ export default function Folder () {
       .catch((err) => console.log(err))
   }
 
+  // Handler to save a new flashcard
+  // Used by the NewFlashcard component
   const saveFlashcardHandler = async (isNew, values, resetForm) => {
     setIsSavingCard(true)
     const res = await axios.post('/folder/update', {
@@ -80,6 +90,8 @@ export default function Folder () {
     resetForm()
   }
 
+  // Handler to close the edit folder form
+  // Used by the Modal component
   const closeEditFolderHandler = () => {
     setShowEdit(false)
     setModalError(false)

@@ -4,6 +4,8 @@ import passport from '../../../lib/passport'
 import { checkAuthError, checkAuthorised } from '../../../util/errors'
 import Folder from '../../../models/Folder'
 
+// API route for retrieving a list of all the user's folders and their details
+// Used by the Folder page
 const handler = nextConnect()
   .use(passport.initialize())
   .get((req, res) => {
