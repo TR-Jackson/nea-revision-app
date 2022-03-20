@@ -56,6 +56,7 @@ export default function Folder () {
       folders.filter((folder) => folder.name !== folderName),
       false
     )
+    mutate({}, false)
     axios
       .post('/folder/delete', { folder: folderName })
       .then((res) => {

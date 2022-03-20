@@ -54,9 +54,9 @@ export default function Revise () {
             <div className='font-bold text-3xl'>Revising {folder}</div>
             <ReviseCard
               next={nextCardHandler}
-              front={flashcards[currCard].front}
-              back={flashcards[currCard].back}
-              _id={flashcards[currCard]._id}
+              front={flashcards[currCard]?.front}
+              back={flashcards[currCard]?.back}
+              _id={flashcards[currCard]?._id}
             />
           </div>
         )
