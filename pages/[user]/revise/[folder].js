@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import ReviseCard from '../../../components/Flashcard/ReviseCard'
 import useUser from '../../../hooks/useUser'
-import Button from '../../../components/UI/Button/Button
+import Button from '../../../components/UI/Button/Button'
 
 // This is the page for revising a folder
 export default function Revise () {

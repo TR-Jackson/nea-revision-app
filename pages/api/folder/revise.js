@@ -10,6 +10,8 @@ import Flashcard from '../../../models/Flashcard'
 import ReviseSession from '../../../models/ReviseSession'
 import Folder from '../../../models/Folder'
 
+// API route for generating a pool of flashcards to be revised
+// Used by the Revise page
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
@@ -29,9 +31,10 @@ const handler = nextConnect()
             folder: folder._id
           })
 
-          let toAdd = 30 - reviseSession.toReview.length
-          let pool = []
-          let idPool = [...reviseSession.toReview]
+          let toAdd = 30 - reviseSession.toReview.length //   Maximum of 30 flashcards returned
+          let pool = [] // Flashcards to be returned to the client
+          let idPool = [...reviseSession.toReview] // Add any flashcards from a previous revision session, idPool used in queries for checking flashcards haven't already been added to the pool
+          // Adding the flashcards left over in revise session
           for (const i in reviseSession.toReview) {
             const id = reviseSession.toReview[i]
             const card = await Flashcard.findOne(
@@ -40,8 +43,11 @@ const handler = nextConnect()
             )
             pool.push(card)
           }
-          if (reviseSession.dateAdded.getTime() === new Date(Math.floor(Date.now() / 86400000) * 86400000).getTime()) return res.json({ flashcards: pool })// if cards have already been added today just return the pool now, if not continue and update date added at end, floor date to the day
 
+          // If cards have already been added today just return the pool now, if not continue and update date added at end, floor date to the day
+          if (reviseSession.dateAdded.getTime() === new Date(Math.floor(Date.now() / 86400000) * 86400000).getTime()) return res.json({ flashcards: pool })
+
+          // Now adding new flashcards that have at least been reviewed once already
           const reviewed = await Flashcard.find(
             {
               _id: { $nin: idPool },
@@ -58,6 +64,7 @@ const handler = nextConnect()
           idPool = [...idPool, ...pool.map((card) => card._id)]
           toAdd = toAdd - reviewed.length
 
+          // If there is any space left then add some new flashcards unrevised flashcards to the pool
           if (toAdd > 0) {
             const notReviewed = await Flashcard.find(
               {
@@ -72,12 +79,13 @@ const handler = nextConnect()
             pool = pool.concat(notReviewed)
           }
 
+          // Save the new pool of flashcards to the revise session
           const toAddToSession = []
           pool.forEach((card) => {
             toAddToSession.push(card._id)
           })
           reviseSession.toReview = toAddToSession
-          reviseSession.dateAdded = new Date(Math.floor(Date.now() / 86400000) * 86400000)
+          reviseSession.dateAdded = new Date(Math.floor(Date.now() / 86400000) * 86400000) // ensures more flashcards can't be added to the pool today
           await reviseSession.save()
           return res.json({ flashcards: pool })
         } catch (error) {

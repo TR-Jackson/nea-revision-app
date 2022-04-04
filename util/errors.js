@@ -10,6 +10,7 @@ import {
   reqEditFolderSchema
 } from '../lib/yupSchemas'
 
+// Used to modularise checking request bodies on all API routes
 export function checkReqBody (body, route) {
   let error = false
   switch (route) {
@@ -54,15 +55,17 @@ export function checkReqBody (body, route) {
     break
 
   default:
-    throw { message: 'Critical Server Error', status: 500 }
+    throw { message: 'Critical Server Error', status: 500 } // Should not reach
   }
   if (error) throw { message: 'Bad request', status: 400 }
 }
 
+// Check if an error has occurred from passport authenticating middleware
 export function checkAuthError (error) {
   if (error) throw { message: error || 'Error authenticating', status: 401 }
 }
 
+// Check if a user has been found linked to the JWT provided to the passport middleware
 export function checkAuthorised (user) {
   if (!user) throw { message: 'Unauthorised', status: 401 }
 }

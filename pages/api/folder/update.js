@@ -11,6 +11,8 @@ import { flashcardFormSchema } from '../../../lib/yupSchemas'
 import Flashcard from '../../../models/Flashcard'
 import Folder from '../../../models/Folder'
 
+// API route for adding flashcards to a folder
+// Used by the Folder page
 const handler = nextConnect()
   .use(passport.initialize())
   .post((req, res) => {
@@ -32,6 +34,8 @@ const handler = nextConnect()
           const newRevisedStatus = [...folder.revisedStatus]
           const newCards = []
 
+          // Allows for editing flashcards even though implemented on the frontend
+          // Goes through list and either creates the new flashcard or updates if an _id of an existing flashcard is provided
           for (const i in req.body.flashcards) {
             const card = req.body.flashcards[i]
             if (!flashcardFormSchema.isValidSync(card)) continue

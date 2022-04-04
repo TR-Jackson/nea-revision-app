@@ -9,6 +9,8 @@ import Modal from '../components/Modal/Modal'
 import Button from '../components/UI/Button/Button'
 import Folder from '../components/Folder/Folder'
 
+// This is the home page
+// Displays the list of the user's folders
 export default function Home () {
   const router = useRouter()
   const { user } = useUser({ redirectTo: '/auth' })

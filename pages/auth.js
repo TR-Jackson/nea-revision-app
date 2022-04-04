@@ -7,6 +7,7 @@ import AuthForm from '../components/Forms/AuthForm'
 import useUser from '../hooks/useUser'
 import Button from '../components/UI/Button/Button'
 
+// This is the page for authenticating
 export default function Auth () {
   const [isLogin, setIsLogin] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
@@ -16,6 +17,7 @@ export default function Auth () {
     redirectIfFound: true
   })
 
+  // Method to log in/register user using values from the form
   const submitHandler = ({ username, password } = {}) => {
     setError(false)
     setIsLoading(true)

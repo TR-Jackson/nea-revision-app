@@ -1,5 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken'
 
+// Function used by auth API route to generate a JWT for the user
 export const issueJWT = (user) => {
   const _id = user._id
 

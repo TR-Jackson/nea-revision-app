@@ -4,7 +4,8 @@ import CookieBanner from '../components/CookieBanner/CookieBanner'
 import Navbar from '../components/Navbar'
 import '../styles/globals.css'
 
-function MyApp ({ Component, pageProps }) {
+// Required by next.js, function is the root of the web app
+function RevisionApp ({ Component, pageProps }) {
   return (
     <>
       <Navbar />
@@ -15,9 +16,9 @@ function MyApp ({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default RevisionApp
 
-MyApp.propTypes = {
+RevisionApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired
 }

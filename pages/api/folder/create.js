@@ -30,6 +30,7 @@ const handler = nextConnect()
           // Check if the folder already exists
           if (folder) throw { message: 'Folder already exists', status: 400 }
 
+          // Create and save a new folder document
           const newFolder = new Folder({
             owner: user._id,
             name: req.body.folderName,
@@ -37,6 +38,7 @@ const handler = nextConnect()
           })
           const savedFolder = await newFolder.save()
 
+          // Create and save the revise session document for the fodler
           const newReviseSession = new ReviseSession({
             folder: savedFolder._id
           })
