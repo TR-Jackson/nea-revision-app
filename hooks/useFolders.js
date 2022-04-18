@@ -9,5 +9,3 @@ export default function useFolders () {
 
   return { folders, mutateFolders }
 }
-
-// https://github.com/vercel/next.js/blob/canary/examples/with-iron-session/lib/useUser.js
