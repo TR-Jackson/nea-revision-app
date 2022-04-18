@@ -39,7 +39,7 @@ const handler = nextConnect()
             folder: folder._id
           })
 
-          // if (!reviseSession.toReview.includes(flashcard._id)) throw { status: 400, message: 'Invalid flashcard ID' }
+          if (!reviseSession.toReview.includes(flashcard._id)) throw { status: 400, message: 'Invalid flashcard ID' }
 
           // Updates the time of next review, folder progress, number of days of correct repetition and easiness factor
           const newRevisedStatus = [...folder.revisedStatus]
